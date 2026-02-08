@@ -40,4 +40,6 @@ const newsSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('News', newsSchema);
+// Check if the model is already defined to prevent OverwriteModelError
+// This is crucial for Next.js hot reloading and serverless environments
+module.exports = mongoose.models.News || mongoose.model('News', newsSchema);

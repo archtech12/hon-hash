@@ -62,4 +62,6 @@ const projectSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+// Check if the model is already defined to prevent OverwriteModelError
+// This is crucial for Next.js hot reloading and serverless environments
+module.exports = mongoose.models.Project || mongoose.model('Project', projectSchema);
