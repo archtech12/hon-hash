@@ -24,7 +24,7 @@ export function Navbar() {
           </svg>
         </div>
         <h2 className="text-white text-base sm:text-lg lg:text-xl font-bold tracking-tight">
-          Hon. HASH
+          Hon. Hassan Shehu Hussain
         </h2>
       </div>
 
