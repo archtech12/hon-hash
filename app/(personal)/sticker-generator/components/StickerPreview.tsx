@@ -1,0 +1,56 @@
+'use client'
+
+import { forwardRef } from 'react'
+import { StickerData } from '../types'
+import { StickerCanvas } from './StickerCanvas'
+import { ClassicTemplate } from './templates/ClassicTemplate'
+import { ModernTemplate } from './templates/ModernTemplate'
+import { YouthTemplate } from './templates/YouthTemplate'
+import { PrintTemplate } from './templates/PrintTemplate'
+import { MinimalTemplate } from './templates/MinimalTemplate'
+import { BadgeTemplate } from './templates/BadgeTemplate'
+import { TypeTemplate } from './templates/TypeTemplate'
+import { GeometricTemplate } from './templates/GeometricTemplate'
+import { ClassicTemplateV2 } from './templates/ClassicTemplateV2'
+import { BadgeTemplateV2 } from './templates/BadgeTemplateV2'
+import { GeometricTemplateV2 } from './templates/GeometricTemplateV2'
+import { ClassicPremiumTemplate } from './templates/ClassicPremiumTemplate'
+import { ModernPremiumTemplate } from './templates/ModernPremiumTemplate'
+import { PrintPremiumTemplate } from './templates/PrintPremiumTemplate'
+import { BadgePremiumTemplate } from './templates/BadgePremiumTemplate'
+
+interface StickerPreviewProps {
+  data: StickerData
+  isExporting?: boolean
+}
+
+export const StickerPreview = forwardRef<HTMLDivElement, StickerPreviewProps>(({ data, isExporting = false }, ref) => {
+  const TemplateMap = {
+    classic: ClassicTemplate,
+    modern: ModernTemplate,
+    youth: YouthTemplate,
+    print: PrintTemplate,
+    minimal: MinimalTemplate,
+    badge: BadgeTemplate,
+    type: TypeTemplate,
+    geometric: GeometricTemplate,
+    classicV2: ClassicTemplateV2,
+    badgeV2: BadgeTemplateV2,
+    geometricV2: GeometricTemplateV2,
+    classicPremium: ClassicPremiumTemplate,
+    modernPremium: ModernPremiumTemplate,
+    printPremium: PrintPremiumTemplate,
+    badgePremium: BadgePremiumTemplate,
+  }
+
+  const SelectedTemplate = TemplateMap[data.templateId]
+
+  return (
+    <StickerCanvas ref={ref} aspectRatio={data.aspectRatio} isExporting={isExporting}>
+      <SelectedTemplate data={data} isExporting={isExporting} />
+    </StickerCanvas>
+  )
+})
+
+
+StickerPreview.displayName = 'StickerPreview'

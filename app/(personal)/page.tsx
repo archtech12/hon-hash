@@ -1,0 +1,295 @@
+'use client'
+
+import { HomePage } from '@/components/HomePage'
+import { MediaGallery } from '@/components/MediaGallery'
+import { ContactSection } from '@/components/ContactSection'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { ProjectModal } from '@/components/ProjectModal'
+
+import { news as staticNews } from '@/lib/news'
+import { projects as staticProjects } from '@/lib/projects'
+
+interface Project {
+  _id: string
+  title: string
+  titleHA: string
+  description: string
+  category: string
+  images: string[]
+  date: string
+}
+
+export default function IndexRoute() {
+  const [news, setNews] = useState<any[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [newsRes, projectsRes] = await Promise.all([
+          fetch('/api/news', { cache: 'no-store' }),
+          fetch('/api/projects', { cache: 'no-store' })
+        ])
+        
+        const newsData = await newsRes.json()
+        const projectsData = await projectsRes.json()
+        
+        const fetchedNews = newsData.data || newsData || []
+        const fetchedProjects = projectsData.data || projectsData || []
+
+        setNews(fetchedNews.length > 0 ? fetchedNews : staticNews)
+        
+        const allProjects = (fetchedProjects.length > 0 ? fetchedProjects : staticProjects)
+          .map((p: any) => {
+            // Force correct figures for key empowerments if needed
+            if (p._id === 'emp-3' || (p.title && p.title.toLowerCase().includes('motorcycle'))) {
+              return { ...p, title: 'Distribution of Around 300 Motorcycles', description: 'Distribution of around 300 motorcycles.' }
+            }
+            if (p._id === 'edu-6' || (p.title && p.title.toLowerCase().includes('neco'))) {
+               return { ...p, title: 'Sponsored Over 500 Students for the 2023 NECO Examination and Paid Full Scholarship', description: 'Sponsored over 500 students for the 2023 NECO examination and paid full scholarship up to graduation.' }
+            }
+            return p
+          })
+        setProjects(Array.isArray(allProjects) ? allProjects.filter((p: any) => p.category !== 'Legislative') : [])
+      } catch (error) {
+        console.error('Failed to fetch data, falling back to static data:', error)
+        setNews(staticNews)
+        setProjects(staticProjects.filter(p => p.category !== 'Legislative'))
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+
+
+  const mockData = {
+    title: 'Hon. Hassan Shehu Hussain (Hon. HASH)',
+  }
+
+  // Transform projects for Media Gallery
+  const projectGalleryItems = projects
+    .filter(p => p.images && p.images.length > 0)
+    .map(p => ({
+      id: p._id,
+      type: 'image' as const,
+      src: p.images[0],
+      title: p.title,
+      description: p.description,
+      date: p.date
+    }))
+
+  return (
+    <div>
+      <HomePage data={mockData} />
+
+      {/* Featured Projects Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4">
+              OUR INITIATIVES
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-gray-900">
+              Transforming Communities
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Empowering lives through dedicated projects and programs across our constituencies
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-700"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {projects.slice(0, 3).map((project, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedProject(project)}
+                  className="group bg-white rounded-2xl shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2 cursor-pointer"
+                >
+                    <div className="h-48 relative overflow-hidden bg-gray-200">
+                    {project.images && project.images.length > 0 ? (
+                      <Image
+                        src={project.images[0]}
+                        alt={project.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-green-700"></div>
+                    )}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="bg-white/90 backdrop-blur text-green-800 px-4 py-2 rounded-full font-bold text-sm shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                            View Details
+                        </span>
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 translate-y-0 group-hover:translate-y-2 transition-transform duration-300">
+                      <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-green-700 rounded-full text-xs font-semibold">
+                        {project.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-700 transition-colors line-clamp-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">{project.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-500">
+                        {project.date}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                        Active
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-8 sm:mt-10 md:mt-12">
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 bg-green-700 text-white font-bold py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl hover:bg-green-800 transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 sm:hover:scale-105 text-base sm:text-base touch-manipulation"
+            >
+              <span>View All Projects</span>
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+
+      {/* Latest News Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4">
+              LATEST UPDATES
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-gray-900">
+              News & Announcements
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+              Stay informed with the latest developments and community updates
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-700"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {news.slice(0, 3).map((item, index) => (
+                <Link key={index} href={`/news/${item._id}`} className="group">
+                  <div className="bg-white rounded-2xl shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all duration-500 overflow-hidden transform hover:-translate-y-2 h-full flex flex-col border border-gray-100">
+                    <div className="h-56 bg-gradient-to-br from-green-500 to-green-600 relative overflow-hidden">
+                      {item.imageUrl ? (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="material-symbols-outlined text-white text-6xl">
+                            article
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-green-700 rounded-full text-xs font-semibold">
+                          {item.category || 'News'}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-700 transition-colors line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3 flex-1">{item.excerpt}</p>
+                      <div className="flex items-center justify-between text-sm text-gray-500">
+                        <span>{new Date(item.createdAt || item.publishDate || Date.now()).toLocaleDateString()}</span>
+                        <span className="group-hover:text-green-700 transition-colors font-medium">
+                          Read more →
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-8 sm:mt-10 md:mt-12">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-2 bg-green-600 text-white font-bold py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 sm:hover:scale-105 text-base sm:text-base touch-manipulation"
+            >
+              <span>View All News</span>
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Impact Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-green-700 to-green-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute bottom-20 right-10 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        </div>
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
+              Making a Real Difference
+            </h2>
+            <p className="text-green-100 text-base sm:text-lg max-w-3xl mx-auto">
+              Through dedicated service and community-focused initiatives, we're creating lasting
+              positive change
+            </p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="text-center transform hover:scale-110 transition-transform duration-300">
+              <div className="text-5xl md:text-6xl font-bold mb-2">20,000+</div>
+              <div className="text-green-200 text-sm md:text-base">Beneficiaries</div>
+            </div>
+            <div className="text-center transform hover:scale-110 transition-transform duration-300">
+              <div className="text-5xl md:text-6xl font-bold mb-2">26+</div>
+              <div className="text-green-200 text-sm md:text-base">Programs Launched</div>
+            </div>
+            <div className="text-center transform hover:scale-110 transition-transform duration-300">
+              <div className="text-5xl md:text-6xl font-bold mb-2">11</div>
+              <div className="text-green-200 text-sm md:text-base">Wards Served</div>
+            </div>
+            <div className="text-center transform hover:scale-110 transition-transform duration-300">
+              <div className="text-5xl md:text-6xl font-bold mb-2">3+</div>
+              <div className="text-green-200 text-sm md:text-base">Years of Service</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <MediaGallery items={projectGalleryItems} />
+      <ContactSection />
+      
+      <ProjectModal 
+        project={selectedProject} 
+        isOpen={!!selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+      />
+    </div>
+  )
+}

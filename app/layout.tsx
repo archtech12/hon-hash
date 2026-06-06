@@ -1,0 +1,132 @@
+import './globals.css'
+import Script from 'next/script'
+import { IBM_Plex_Mono, Inter, PT_Serif } from 'next/font/google'
+import { Metadata, Viewport } from 'next'
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Hon. Hassan Shehu Hussain (Hon. HASH) - Member, House of Representatives',
+    template: '%s | Hon. HASH',
+  },
+  description: 'Official website of Hon. Hassan Shehu Hussain (Hon. HASH), Member representing Nasarawa Federal Constituency in the House of Representatives under the All Progressives Congress (APC).',
+  keywords: [
+    'Hassan Shehu Hussain',
+    'Hon. HASH',
+    'Nasarawa',
+    'Kano',
+    'House of Representatives',
+    'Nigeria Politics',
+    'Community Development',
+    'APC',
+  ],
+  authors: [{ name: 'Hon. Hassan Shehu Hussain' }],
+  creator: 'Hon. HASH Media Team',
+  publisher: 'Hon. HASH Media',
+  openGraph: {
+    type: 'website',
+    locale: 'en_NG',
+    url: 'https://hassan-shehu-hussain.com',
+    siteName: 'Hon. HASH Official',
+    title: 'Hon. Hassan Shehu Hussain - Service to Humanity',
+    description:
+      'Celebrating the impactful service of Hon. Hassan Shehu Hussain in Nasarawa Federal Constituency. Empowering communities through dedicated leadership.',
+    images: [
+      {
+        url: '/assets/images/gallery/0-Portraits-Official/potraitn.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Hon. Hassan Shehu Hussain',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hon. HASH - Service to Humanity',
+    description:
+      'Championing development in Nasarawa Federal Constituency. Member, House of Representatives.',
+    images: ['/assets/images/gallery/0-Portraits-Official/potraitn.jpg'],
+    creator: '@HonHASH',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      'index': true,
+      'follow': true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/assets/apple-touch-icon.png' },
+    ],
+    other: [
+      {
+        rel: 'android-chrome-192x192',
+        url: '/assets/android-chrome-192x192.png',
+      },
+      {
+        rel: 'android-chrome-512x512',
+        url: '/assets/android-chrome-512x512.png',
+      },
+    ],
+  },
+  manifest: '/assets/site.webmanifest', // Point to the manifest in assets
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#16a34a', // Green-600
+}
+
+const serif = PT_Serif({
+  variable: '--font-serif',
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
+const sans = Inter({
+  variable: '--font-sans',
+  subsets: ['latin'],
+  // @todo: understand why extrabold (800) isn't being respected when explicitly specified in this weight array
+  // weight: ['500', '700', '800'],
+})
+const mono = IBM_Plex_Mono({
+  variable: '--font-mono',
+  subsets: ['latin'],
+  weight: ['500', '700'],
+})
+
+import { ThemeProvider } from '@/components/ThemeProvider'
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${mono.variable} ${sans.variable} ${serif.variable}`} suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <meta name="theme-color" content="#16a34a" />
+      </head>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
