@@ -36,7 +36,7 @@ export default function ContactPage() {
     setContactInfo({
       phone: "+234 803 123 4567", // Professional Placeholder
       email: "info@hon-hash.com",
-      officeAddress: "Gadar Tudun Murtala\nopposite Sheikh Ja'afar Mosque, Tudun Murtala\nNassarawa Local Government Area, Kano State",
+      officeAddress: "No 23 Durbin Katsina Road Bompai GRA\nNassarawa LGA Kano State",
       officeHours: "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 10:00 AM - 2:00 PM",
       socialMedia: {
         facebook: "https://facebook.com/HonHASH",

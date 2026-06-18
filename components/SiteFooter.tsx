@@ -47,9 +47,8 @@ export const SiteFooter = () => {
                   Constituency Office
                 </h3>
                 <ul className="mt-4 space-y-2 text-sm sm:text-base text-gray-300" role="list">
-                  <li>Gadar Tudun Murtala</li>
-                  <li>Opposite Sheikh Ja'afar Mosque, Tudun Murtala</li>
-                  <li>Nassarawa Local Government Area, Kano State</li>
+                  <li>No 23 Durbin Katsina Road Bompai GRA</li>
+                  <li>Nassarawa LGA Kano State</li>
                 </ul>
               </div>
               <div>

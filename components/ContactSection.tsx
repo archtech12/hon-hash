@@ -183,7 +183,7 @@ export function ContactSection() {
                     <h4 className="font-bold text-gray-800">Office</h4>
                     <p className="text-gray-600">Member House of Representatives Nassarawa Federal Constituency, Kano State<br/>
                     DEPUTY CHAIRMAN HOUSE COMMITTEE ON CUSTOMS AND EXCISE<br/>
-                    Constituency Office Venue: Gadar Tudun Murtala, opposite sheikh Ja'afar Mosque, Tudun Murtala, Nassarawa Local Government Area, Kano State.</p>
+                    Constituency Office Venue: No 23 Durbin Katsina Road Bompai GRA, Nassarawa LGA Kano State.</p>
                   </div>
                 </div>
                 
