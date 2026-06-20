@@ -67,7 +67,7 @@ export const ThemeControls = ({ data, onUpdate }: ThemeControlsProps) => {
       <div>
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-2">
-            <span className="bg-emerald-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">1</span>
+            <span className="bg-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">1</span>
             <label className="text-sm font-black text-slate-800 uppercase tracking-wide">Add Your Photo</label>
           </div>
         </div>
@@ -113,13 +113,13 @@ export const ThemeControls = ({ data, onUpdate }: ThemeControlsProps) => {
         ) : (
           <div 
             onClick={triggerFileInput}
-            className="cursor-pointer group flex flex-col items-center justify-center w-full p-4 rounded-xl border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50 transition-all duration-200"
+            className="cursor-pointer group flex flex-col items-center justify-center w-full p-4 rounded-xl border-2 border-dashed border-green-300 hover:border-green-500 bg-green-50/30 hover:bg-green-50 transition-all duration-200"
           >
             <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                     <span className="material-symbols-outlined text-[16px]">add_a_photo</span>
                 </div>
-                <span className="text-sm font-bold text-emerald-700">CLICK TO UPLOAD PHOTO</span>
+                <span className="text-sm font-bold text-green-700">CLICK TO UPLOAD PHOTO</span>
             </div>
           </div>
         )}

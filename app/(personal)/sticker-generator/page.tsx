@@ -178,8 +178,8 @@ export default function StickerGeneratorPage() {
       {/* ── CINEMATIC BACKGROUND EFFECTS (LIGHT MODE) ── */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
          {/* Soft ambient glows */}
-         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-emerald-300/20 rounded-full blur-[150px] mix-blend-multiply opacity-60 animate-pulse-slow"></div>
-         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-blue-300/20 rounded-full blur-[150px] mix-blend-multiply opacity-60"></div>
+         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-green-300/20 rounded-full blur-[150px] mix-blend-multiply opacity-60 animate-pulse-slow"></div>
+         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-green-200/20 rounded-full blur-[150px] mix-blend-multiply opacity-60"></div>
          {/* High-end dot grid overlay */}
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
@@ -196,13 +196,13 @@ export default function StickerGeneratorPage() {
         {/* ── HEADER SECTION ── */}
         <header className="mb-16 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="flex flex-col items-center lg:items-start">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold rounded-full mb-6 shadow-sm">
-                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-200 text-green-700 text-xs font-bold rounded-full mb-6 shadow-sm">
+                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                      PRO ENDORSEMENT STUDIO
                 </div>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">
                     Design Your <br className="hidden lg:block"/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600">Sticker</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-800">Sticker</span>
                 </h1>
                 <p className="text-slate-500 text-lg md:text-xl max-w-xl leading-relaxed font-medium">
                     Generate an ultra-premium, personalized endorsement card in seconds. Choose a layout, enter your details, and download the high-res graphic.
@@ -212,7 +212,7 @@ export default function StickerGeneratorPage() {
             {/* Global Stats / Trust Badge */}
             <div className="hidden lg:flex flex-col items-end gap-2 bg-white/60 backdrop-blur-xl border border-slate-200 shadow-sm p-6 rounded-2xl">
                 <span className="text-3xl font-black text-slate-800">2027</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Hon. Hassan Shehu Hussain</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-green-700">Hon. Hassan Shehu Hussain</span>
                 <div className="flex items-center gap-2 mt-2 opacity-30">
                    <span className="w-1 h-1 bg-slate-900 rounded-full" />
                    <span className="w-1 h-1 bg-slate-900 rounded-full" />
@@ -228,11 +228,11 @@ export default function StickerGeneratorPage() {
                 
                 {/* Step 1: Layout */}
                 <section className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white relative overflow-hidden group">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     <div className="flex items-center justify-between mb-8">
                        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-3">
-                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-xs font-black shadow-sm">1</div> 
+                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 text-xs font-black shadow-sm">1</div> 
                            Architecture
                        </h2>
                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Select Base</span>
@@ -245,11 +245,11 @@ export default function StickerGeneratorPage() {
 
                 {/* Step 2: Customization */}
                 <section className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white relative overflow-hidden group">
-                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                      <div className="flex items-center justify-between mb-8">
                         <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-3">
-                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 text-xs font-black shadow-sm">2</div>
+                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 text-xs font-black shadow-sm">2</div>
                            Personalization
                         </h2>
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Inject Data</span>
@@ -277,7 +277,7 @@ export default function StickerGeneratorPage() {
                         
                         {/* Floor Reflection / Studio Lights */}
                         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[200px] bg-emerald-100 blur-[80px] rounded-[100%] pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity duration-1000"></div>
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[200px] bg-green-100 blur-[80px] rounded-[100%] pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity duration-1000"></div>
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.01)_0%,transparent_100%)] pointer-events-none"></div>
 
                         {/* The Floating Canvas */}
@@ -295,7 +295,7 @@ export default function StickerGeneratorPage() {
                         {/* Status Bar */}
                         <div className="absolute top-6 left-8 right-8 flex justify-between items-center pointer-events-none">
                             <div className="flex items-center gap-2">
-                               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse" />
+                               <div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse" />
                                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Live Render</span>
                             </div>
                             <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{data.aspectRatio.toUpperCase()} • 2160PX</span>
@@ -311,7 +311,7 @@ export default function StickerGeneratorPage() {
                                     flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 text-sm lg:text-base border shadow-sm
                                     ${!data.supporterName 
                                         ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
-                                        : 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 hover:shadow-[0_10px_25px_rgba(16,185,129,0.3)]'
+                                        : 'bg-green-600 border-green-700 text-white hover:bg-green-700 hover:shadow-[0_10px_25px_rgba(21,128,61,0.3)]'
                                     }
                                 `}
                             >
