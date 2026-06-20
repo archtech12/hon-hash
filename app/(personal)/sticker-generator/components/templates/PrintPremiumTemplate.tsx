@@ -4,7 +4,7 @@ import { CandidatePortrait } from '../shared/CandidatePortrait'
 export const PrintPremiumTemplate = ({ data }: TemplateProps) => {
   const { supporterName, supporterPhoto, customMessage, aspectRatio } = data
   const isLandscape = ['landscape', 'square', 'print'].includes(aspectRatio)
-  const isStory = aspectRatio === 'story'
+  const isStory = aspectRatio === 'portrait'
 
   return (
     <div className="w-full h-full bg-[#f8f9fa] flex flex-col font-sans relative select-none overflow-hidden" style={{ border: '16px solid #000' }}>

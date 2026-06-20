@@ -4,7 +4,7 @@ import { CandidatePortrait } from '../shared/CandidatePortrait'
 export const ModernPremiumTemplate = ({ data }: TemplateProps) => {
   const { supporterName, supporterPhoto, customMessage, colorTheme, aspectRatio } = data
   const isLandscape = aspectRatio === 'landscape'
-  const isStory = aspectRatio === 'story'
+  const isStory = aspectRatio === 'portrait'
 
   const colors = {
     green: { bg: '#041508', glow1: 'rgba(34,197,94,0.3)', glow2: 'rgba(16,185,129,0.2)', accent: '#4ade80' },

@@ -4,7 +4,7 @@ import { CandidatePortrait } from '../shared/CandidatePortrait'
 export const ClassicPremiumTemplate = ({ data }: TemplateProps) => {
   const { supporterName, supporterPhoto, customMessage, colorTheme, aspectRatio } = data
   const isLandscape = aspectRatio === 'landscape'
-  const isStory = aspectRatio === 'story'
+  const isStory = aspectRatio === 'portrait'
 
   const themes = {
     green: { bg: '#0d1b12', text: '#ffffff', accent: '#f59e0b', secondary: '#166534', subtle: 'rgba(255,255,255,0.1)' },
