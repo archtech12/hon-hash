@@ -200,7 +200,7 @@ export default function StickerGeneratorPage() {
                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                      PRO ENDORSEMENT STUDIO
                 </div>
-                <h1 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter leading-tight">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 tracking-tighter leading-tight">
                     Design Your <br className="hidden lg:block"/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-500">Sticker</span>
                 </h1>
