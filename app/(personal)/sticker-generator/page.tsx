@@ -173,15 +173,15 @@ export default function StickerGeneratorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] font-sans relative overflow-x-hidden text-white selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-50 font-sans relative overflow-x-hidden text-slate-900 selection:bg-emerald-500/30">
       
-      {/* ── CINEMATIC BACKGROUND EFFECTS ── */}
+      {/* ── CINEMATIC BACKGROUND EFFECTS (LIGHT MODE) ── */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-         {/* Deep ambient glows */}
-         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-emerald-900/20 rounded-full blur-[150px] mix-blend-screen opacity-50 animate-pulse-slow"></div>
-         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-blue-900/20 rounded-full blur-[150px] mix-blend-screen opacity-50"></div>
+         {/* Soft ambient glows */}
+         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-emerald-300/20 rounded-full blur-[150px] mix-blend-multiply opacity-60 animate-pulse-slow"></div>
+         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-blue-300/20 rounded-full blur-[150px] mix-blend-multiply opacity-60"></div>
          {/* High-end dot grid overlay */}
-         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
       {/* Off-screen high-resolution export target */}
@@ -196,27 +196,27 @@ export default function StickerGeneratorPage() {
         {/* ── HEADER SECTION ── */}
         <header className="mb-16 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="flex flex-col items-center lg:items-start">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full mb-6 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold rounded-full mb-6 shadow-sm">
+                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                      PRO ENDORSEMENT STUDIO
                 </div>
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 tracking-tighter leading-tight">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">
                     Design Your <br className="hidden lg:block"/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-500">Sticker</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600">Sticker</span>
                 </h1>
-                <p className="text-slate-400 text-lg md:text-xl max-w-xl leading-relaxed font-light">
+                <p className="text-slate-500 text-lg md:text-xl max-w-xl leading-relaxed font-medium">
                     Generate an ultra-premium, personalized endorsement card in seconds. Choose a layout, enter your details, and download the high-res graphic.
                 </p>
             </div>
             
             {/* Global Stats / Trust Badge */}
-            <div className="hidden lg:flex flex-col items-end gap-2 bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl">
-                <span className="text-3xl font-black text-white">2027</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Hon. Hassan Shehu Hussain</span>
-                <div className="flex items-center gap-2 mt-2 opacity-50">
-                   <span className="w-1 h-1 bg-white rounded-full" />
-                   <span className="w-1 h-1 bg-white rounded-full" />
-                   <span className="w-1 h-1 bg-white rounded-full" />
+            <div className="hidden lg:flex flex-col items-end gap-2 bg-white/60 backdrop-blur-xl border border-slate-200 shadow-sm p-6 rounded-2xl">
+                <span className="text-3xl font-black text-slate-800">2027</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Hon. Hassan Shehu Hussain</span>
+                <div className="flex items-center gap-2 mt-2 opacity-30">
+                   <span className="w-1 h-1 bg-slate-900 rounded-full" />
+                   <span className="w-1 h-1 bg-slate-900 rounded-full" />
+                   <span className="w-1 h-1 bg-slate-900 rounded-full" />
                 </div>
             </div>
         </header>
@@ -227,16 +227,15 @@ export default function StickerGeneratorPage() {
             <div className="lg:col-span-5 order-2 lg:order-1 space-y-8 pb-32 lg:pb-0">
                 
                 {/* Step 1: Layout */}
-                <section className="bg-white/[0.02] backdrop-blur-2xl p-8 rounded-[2rem] shadow-2xl border border-white/[0.05] relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <section className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white relative overflow-hidden group">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     <div className="flex items-center justify-between mb-8">
-                       <h2 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3">
-                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 text-xs border border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.2)]">1</div> 
+                       <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-3">
+                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-xs font-black shadow-sm">1</div> 
                            Architecture
                        </h2>
-                       <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Select Base</span>
+                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Select Base</span>
                     </div>
                     
                     <div className="relative z-10">
@@ -245,22 +244,21 @@ export default function StickerGeneratorPage() {
                 </section>
 
                 {/* Step 2: Customization */}
-                <section className="bg-white/[0.02] backdrop-blur-2xl p-8 rounded-[2rem] shadow-2xl border border-white/[0.05] relative overflow-hidden group">
-                     <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
-                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <section className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white relative overflow-hidden group">
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                      <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3">
-                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 text-xs border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]">2</div>
+                        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-3">
+                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 text-xs font-black shadow-sm">2</div>
                            Personalization
                         </h2>
-                        <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Inject Data</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Inject Data</span>
                     </div>
                     
                     <div className="relative z-10 space-y-8">
                         <TextControls data={data} onUpdate={updateField} />
                         
-                        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent my-8"></div>
+                        <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent my-8"></div>
                         
                         <div>
                            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Color Profile</h3>
@@ -274,46 +272,46 @@ export default function StickerGeneratorPage() {
             <div className="lg:col-span-7 order-1 lg:order-2">
                  <div className="lg:sticky lg:top-8">
                     
-                    {/* The Studio Environment */}
-                    <div className="bg-[#050505] p-6 md:p-12 rounded-[2.5rem] lg:rounded-[3rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/[0.05] flex flex-col items-center justify-center min-h-[400px] lg:min-h-[700px] relative overflow-hidden group">
+                    {/* The Studio Environment (Light Mode) */}
+                    <div className="bg-white p-6 md:p-12 rounded-[2.5rem] lg:rounded-[3rem] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col items-center justify-center min-h-[400px] lg:min-h-[700px] relative overflow-hidden group">
                         
                         {/* Floor Reflection / Studio Lights */}
-                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[200px] bg-emerald-500/10 blur-[80px] rounded-[100%] pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity duration-1000"></div>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_100%)] pointer-events-none"></div>
+                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[200px] bg-emerald-100 blur-[80px] rounded-[100%] pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity duration-1000"></div>
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.01)_0%,transparent_100%)] pointer-events-none"></div>
 
                         {/* The Floating Canvas */}
                         <div className="relative w-full max-w-[550px] transition-all duration-700 hover:scale-[1.03] z-10 perspective-1000">
                              {/* Canvas Glow Shadow */}
-                             <div className="absolute -inset-1 bg-gradient-to-b from-white/10 to-transparent rounded-[2rem] blur-xl opacity-50 transition-opacity duration-500"></div>
+                             <div className="absolute -inset-1 bg-gradient-to-b from-slate-200 to-transparent rounded-[2rem] blur-xl opacity-50 transition-opacity duration-500"></div>
                              
-                             <div className="relative shadow-[0_40px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.1)] rounded-sm overflow-hidden bg-black mx-auto">
+                             <div className="relative shadow-[0_30px_60px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.05)] rounded-sm overflow-hidden bg-white mx-auto">
                                  <StickerPreview ref={previewRef} data={data} />
                                  {/* Glass Reflection on top of canvas */}
-                                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+                                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent pointer-events-none" />
                              </div>
                         </div>
 
                         {/* Status Bar */}
                         <div className="absolute top-6 left-8 right-8 flex justify-between items-center pointer-events-none">
                             <div className="flex items-center gap-2">
-                               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                               <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest">Live Render</span>
+                               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse" />
+                               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Live Render</span>
                             </div>
-                            <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">{data.aspectRatio.toUpperCase()} • 2160PX</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{data.aspectRatio.toUpperCase()} • 2160PX</span>
                         </div>
 
                         {/* Mobile Actions Bar - Fixed to bottom of screen on small devices */}
-                        <div className="fixed bottom-0 left-0 right-0 p-4 pb-8 bg-black/80 backdrop-blur-2xl border-t border-white/10 lg:relative lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:p-0 mt-0 lg:mt-16 flex flex-row items-center justify-center gap-4 w-full max-w-full lg:max-w-md z-50 lg:z-10 transition-all">
+                        <div className="fixed bottom-0 left-0 right-0 p-4 pb-8 bg-white/90 backdrop-blur-2xl border-t border-slate-200 lg:relative lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:p-0 mt-0 lg:mt-16 flex flex-row items-center justify-center gap-4 w-full max-w-full lg:max-w-md z-50 lg:z-10 transition-all">
                             
                             <button
                                 onClick={handleDownload}
                                 disabled={isDownloading || isSharing || !data.supporterName}
                                 className={`
-                                    flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold text-white transition-all active:scale-95 text-sm lg:text-base border
+                                    flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 text-sm lg:text-base border shadow-sm
                                     ${!data.supporterName 
-                                        ? 'bg-white/5 border-white/5 text-white/30 cursor-not-allowed' 
-                                        : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500 hover:text-white hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]'
+                                        ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
+                                        : 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 hover:shadow-[0_10px_25px_rgba(16,185,129,0.3)]'
                                     }
                                 `}
                             >
@@ -336,10 +334,10 @@ export default function StickerGeneratorPage() {
                                 onClick={handleShare}
                                 disabled={isDownloading || isSharing || !data.supporterName}
                                 className={`
-                                    flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 text-sm lg:text-base border
+                                    flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 text-sm lg:text-base border shadow-sm
                                     ${!data.supporterName 
-                                        ? 'bg-white/5 border-white/5 text-white/30 cursor-not-allowed' 
-                                        : 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+                                        ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
+                                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-[0_10px_25px_rgba(0,0,0,0.05)]'
                                     }
                                 `}
                             >
@@ -361,7 +359,7 @@ export default function StickerGeneratorPage() {
                         </div>
                         
                         {!data.supporterName && (
-                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2 text-rose-400 bg-rose-500/10 px-4 py-2 rounded-full text-[10px] font-bold border border-rose-500/20 backdrop-blur-sm shadow-[0_0_20px_rgba(244,63,94,0.1)] animate-pulse">
+                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2 text-rose-600 bg-rose-50 px-4 py-2 rounded-full text-[10px] font-bold border border-rose-100 shadow-sm animate-pulse">
                                 <span className="material-symbols-outlined text-sm">lock</span>
                                 Data Input Required for Export
                             </div>
