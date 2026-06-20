@@ -14,7 +14,6 @@ interface StickerCanvasProps {
 const RATIOS: Record<AspectRatio, number> = {
   square: 1 / 1,
   portrait: 4 / 5,
-  story: 9 / 16,
   landscape: 1.91 / 1, // Facebook/Link preview standard
   print: 1 / 1,
 }

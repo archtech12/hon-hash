@@ -3,208 +3,122 @@ import { CandidatePortrait } from '../shared/CandidatePortrait'
 
 export const BadgeTemplateV2 = ({ data }: TemplateProps) => {
   const { supporterName, supporterPhoto, customMessage, colorTheme, aspectRatio } = data
-  const isLandscape = aspectRatio === 'landscape'
-  const isStory = aspectRatio === 'story'
+  const isLandscape = ['landscape', 'square', 'print'].includes(aspectRatio)
 
+  // Professional, highly structured corporate/official credential colors
   const themeColors = {
-    green: {
-      accent: 'emerald-500',
-      glow: 'bg-emerald-600',
-      border: 'border-emerald-500/30',
-      text: 'text-emerald-400',
-      bgGrad: 'from-emerald-950/80',
-    },
-    red: {
-      accent: 'rose-500',
-      glow: 'bg-rose-600',
-      border: 'border-rose-500/30',
-      text: 'text-rose-400',
-      bgGrad: 'from-rose-950/80',
-    },
-    blue: {
-      accent: 'blue-500',
-      glow: 'bg-blue-600',
-      border: 'border-blue-500/30',
-      text: 'text-blue-400',
-      bgGrad: 'from-blue-950/80',
-    },
-    gold: {
-      accent: 'amber-500',
-      glow: 'bg-amber-600',
-      border: 'border-amber-500/30',
-      text: 'text-amber-400',
-      bgGrad: 'from-amber-950/80',
-    },
-  }[colorTheme] || {
-    accent: 'emerald-500',
-    glow: 'bg-emerald-600',
-    border: 'border-emerald-500/30',
-    text: 'text-emerald-400',
-    bgGrad: 'from-emerald-950/80',
-  }
+    green: { primary: '#0f766e', secondary: '#14b8a6', text: '#134e4a', bg: '#f8fafc' },
+    red: { primary: '#b91c1c', secondary: '#ef4444', text: '#7f1d1d', bg: '#f8fafc' },
+    blue: { primary: '#1d4ed8', secondary: '#3b82f6', text: '#1e3a8a', bg: '#f8fafc' },
+    gold: { primary: '#b45309', secondary: '#f59e0b', text: '#78350f', bg: '#f8fafc' },
+  }[colorTheme] || { primary: '#0f766e', secondary: '#14b8a6', text: '#134e4a', bg: '#f8fafc' }
 
   return (
-    <div className="w-full h-full bg-[#030712] font-sans flex items-center justify-center p-8 relative overflow-hidden select-none">
-      {/* Dark Ambient Grid & Nebulae */}
-      <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] ${themeColors.bgGrad} via-slate-950 to-black`}></div>
-      <div className={`absolute top-[-10%] left-[-10%] w-[50%] h-[50%] ${themeColors.glow}/15 rounded-full blur-[120px] pointer-events-none`}></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-yellow-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div className="w-full h-full flex items-center justify-center p-6 bg-[#e2e8f0] relative overflow-hidden select-none font-sans">
       
-      {/* CSS-Only grid patterns */}
-      <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:30px_30px] z-0"></div>
+      {/* ── AMBIENT SHADOW ── */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.1)_100%)] pointer-events-none" />
 
-      {/* Floating Metallic Badge Card */}
-      <div className="w-full h-full max-w-[96%] max-h-[96%] relative flex flex-col items-center justify-between overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-8">
-        {/* Glowing Edges */}
-        <div className={`absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-${themeColors.accent}/45 to-transparent opacity-60`}></div>
-        <div className="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent opacity-30"></div>
+      {/* ================= OFFICIAL DELEGATE BADGE ================= */}
+      <div className={`relative z-10 w-full h-full max-w-[95%] mx-auto bg-white rounded-xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] border border-slate-300 overflow-hidden flex ${isLandscape ? 'flex-row' : 'flex-col'}`}>
+        
+        {/* Micro-print security pattern background */}
+        <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/white-diamond.png')] pointer-events-none" />
 
-        {isLandscape ? (
-          /* ================= LANDSCAPE RATIO (1080x565) ================= */
-          <div className="w-full h-full flex gap-8 items-center z-10 relative">
-            {/* Left Column: Slogan, Title, Hologram */}
-            <div className="w-[52%] flex flex-col justify-between h-full py-2">
-              <div className="flex flex-col items-start">
-                <div className="relative mb-2">
-                  <div className="absolute inset-0 bg-yellow-400 blur-lg opacity-25"></div>
-                  <div className="relative flex items-center gap-1.5 bg-gradient-to-b from-yellow-300 to-yellow-600 text-black px-3.5 py-1 rounded-full shadow-md border border-yellow-200/50">
-                    <span className="material-symbols-outlined text-base">verified</span>
-                    <span className="font-extrabold tracking-[0.1em] text-[8px] uppercase">VERIFIED SUPPORTER</span>
-                  </div>
-                </div>
-                <p className={`${themeColors.text} font-mono text-[8px] tracking-widest opacity-80 mb-2`}>ID: 2027-HASH-V2</p>
-                
-                <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-white font-black uppercase text-4xl tracking-wide leading-none mt-2">
-                  HON. HASH 2027
-                </h2>
-              </div>
+        {/* ── HEADER REGION ── */}
+        <div className={`flex items-center justify-between p-6 ${isLandscape ? 'w-[25%] flex-col border-r-4' : 'w-full h-[22%] border-b-4'}`} style={{ backgroundColor: themeColors.primary, borderColor: themeColors.secondary }}>
+           {/* Abstract security graphic */}
+           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+             <div className="w-[150%] h-[150%] absolute -top-[50%] -left-[25%] border-[40px] rounded-full" style={{ borderColor: themeColors.secondary }} />
+           </div>
 
-              {/* Glassmorphic Slogan Container */}
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 my-2 text-center w-full">
-                <p className="font-bold text-white text-sm italic truncate">
-                  "{customMessage || 'TOGETHER WE RISE'}"
-                </p>
-              </div>
+           <div className={`flex items-center gap-4 relative z-10 ${isLandscape ? 'flex-col text-center mt-4' : 'w-full'}`}>
+             <div className="w-16 h-16 bg-white flex items-center justify-center rounded shadow-inner p-1">
+               <CandidatePortrait className="w-full h-full object-cover rounded-sm grayscale-[30%]" />
+             </div>
+             <div className={`${isLandscape ? '' : 'flex-1'}`}>
+               <h1 className="text-white font-black text-2xl lg:text-3xl tracking-widest uppercase leading-none drop-shadow-md">
+                 DELEGATE
+               </h1>
+               <p className="text-white/80 text-[10px] lg:text-xs font-bold tracking-[0.4em] uppercase mt-1">Official Campaign 2027</p>
+             </div>
+           </div>
+        </div>
 
-              <div className="flex items-center justify-between text-left">
-                <div className="flex flex-col">
-                  <p className="text-gray-500 font-bold uppercase text-[8px] tracking-[0.2em] mb-0.5">SUPPORTED BY</p>
-                  <p className="text-white font-black text-2xl uppercase truncate tracking-wide max-w-[240px]">
-                    {supporterName || 'YOUR NAME'}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <span className="text-white/40 font-bold text-[8px] uppercase tracking-widest bg-white/5 px-2 py-1 rounded border border-white/10">VALID THRU 2027</span>
-                </div>
-              </div>
-            </div>
+        {/* ── MAIN CONTENT ── */}
+        <div className={`flex-1 flex ${isLandscape ? 'flex-row' : 'flex-col'} relative`}>
+          
+          {/* Watermark in background */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] pointer-events-none">
+            <span className="material-symbols-outlined text-[300px]">verified</span>
+          </div>
 
-            {/* Right Column: Portraits */}
-            <div className="w-[48%] flex items-center justify-center gap-4 relative h-full">
-              {/* Left Photo: Candidate */}
-              <div className="relative w-[48%] aspect-[3.8/4.8]">
-                <div className={`absolute inset-0 rounded-2xl bg-${themeColors.accent}/20 blur-md transform -rotate-3`}></div>
-                <div className={`relative w-full h-full rounded-2xl overflow-hidden border-2 ${themeColors.border} shadow-2xl bg-slate-900 transform -rotate-3 hover:rotate-0 transition-transform duration-500`}>
-                  <CandidatePortrait className="w-full h-full object-cover scale-110 object-top" />
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-center">
-                    <p className="text-white text-[8px] font-extrabold uppercase">Hon. Hassan</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Photo: Supporter */}
-              <div className="relative w-[48%] aspect-[3.8/4.8] flex-shrink-0">
-                <div className="absolute inset-0 rounded-2xl bg-yellow-400/10 blur-md transform rotate-3"></div>
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-yellow-400/30 shadow-2xl bg-slate-900 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+          {/* LEFT/TOP: Supporter Photo (The primary focus) */}
+          <div className={`flex items-center justify-center p-8 ${isLandscape ? 'w-[45%] border-r border-slate-200' : 'w-full border-b border-slate-200'}`}>
+             <div className="w-full max-w-[280px] aspect-[4/5] bg-white p-2 border border-slate-300 shadow-lg relative">
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-2 bg-slate-200 rounded-full shadow-inner" />
+                <div className="w-full h-full bg-slate-100 overflow-hidden relative">
                   {supporterPhoto ? (
-                    <img src={supporterPhoto} crossOrigin="anonymous" className="w-full h-full object-cover" alt="Supporter" />
+                    <img src={supporterPhoto} crossOrigin="anonymous" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-slate-900 text-white/20">
-                      <span className="material-symbols-outlined text-4xl">person</span>
+                    <div className="w-full h-full flex items-center justify-center text-slate-300">
+                      <span className="material-symbols-outlined text-8xl">person</span>
                     </div>
                   )}
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-center z-20">
-                    <p className="text-yellow-400 text-[8px] font-extrabold uppercase truncate px-1">
-                      {supporterName || 'SUPPORTER'}
-                    </p>
+                  {/* Digital timestamp overlay */}
+                  <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 text-[8px] font-mono tracking-widest rounded">
+                    AUTH: {Date.now().toString().slice(-8)}
                   </div>
                 </div>
-              </div>
-            </div>
+             </div>
           </div>
-        ) : (
-          /* ================= VERTICAL RATIOS (Square, Portrait, Story) ================= */
-          <div className="w-full h-full flex flex-col items-center justify-between z-10 relative">
-            {/* Top Area: Verified Badge Label */}
-            <div className="flex flex-col items-center text-center mt-2">
-              <div className="relative mb-2">
-                <div className="absolute inset-0 bg-yellow-400 blur-xl opacity-20"></div>
-                <div className="relative flex items-center gap-2 bg-gradient-to-b from-yellow-300 to-yellow-600 text-black px-5 py-2 rounded-full shadow-xl border border-yellow-200/50">
-                  <span className="material-symbols-outlined text-lg font-black">verified</span>
-                  <span className="font-extrabold tracking-[0.1em] text-[10px] uppercase">VERIFIED SUPPORTER</span>
-                </div>
-              </div>
-              <p className={`${themeColors.text} font-mono text-[8px] tracking-widest opacity-80 uppercase mt-1`}>
-                ID: 2027-HASH-V2
-              </p>
-            </div>
 
-            {/* Middle: Side-by-Side Photos */}
-            <div className={`flex-1 w-full flex items-center justify-center gap-6 my-auto min-h-0 ${isStory ? 'my-12' : ''}`}>
-              {/* Left Photo: Candidate */}
-              <div className="relative w-[46%] aspect-[3.5/4.5] max-w-[200px]">
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-bl from-${themeColors.accent} to-purple-600 opacity-20 blur-md transform -rotate-3`}></div>
-                <div className={`relative w-full h-full rounded-2xl overflow-hidden border-2 ${themeColors.border} shadow-2xl bg-slate-900 transform -rotate-3 hover:rotate-0 transition-transform duration-500`}>
-                  <CandidatePortrait className="w-full h-full object-cover scale-110 object-top" />
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 to-transparent p-3 text-center">
-                    <p className="text-white text-[9px] font-black uppercase">Hon. Hassan</p>
-                  </div>
-                </div>
-              </div>
+          {/* RIGHT/BOTTOM: ID Details & Endorsement */}
+          <div className={`flex-1 flex flex-col p-8 relative z-10`}>
+             
+             {/* Name Block */}
+             <div className="mb-6">
+               <p className="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-black mb-1">Accredited Member</p>
+               <h2 className="font-black text-4xl lg:text-5xl uppercase tracking-tighter leading-[0.9] text-slate-800 break-words border-l-8 pl-4 py-1" style={{ borderColor: themeColors.primary }}>
+                 {supporterName || 'YOUR FULL NAME'}
+               </h2>
+             </div>
 
-              {/* Right Photo: Supporter */}
-              <div className="relative w-[46%] aspect-[3.5/4.5] max-w-[200px] flex-shrink-0">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-yellow-400 to-orange-500 opacity-20 blur-md transform rotate-3"></div>
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-yellow-400/30 shadow-2xl bg-slate-900 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                  {supporterPhoto ? (
-                    <img src={supporterPhoto} crossOrigin="anonymous" className="w-full h-full object-cover" alt="Supporter" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-slate-900 text-white/20">
-                      <span className="material-symbols-outlined text-5xl">person</span>
-                    </div>
-                  )}
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 to-transparent p-3 text-center z-20">
-                    <p className="text-yellow-400 text-[9px] font-black uppercase truncate px-1">
-                      {supporterName || 'SUPPORTER'}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+             {/* Structural Grid Info */}
+             <div className="grid grid-cols-2 gap-4 mb-6">
+               <div className="bg-slate-50 border border-slate-200 p-3 rounded-sm">
+                 <p className="text-slate-400 text-[8px] uppercase tracking-widest font-bold mb-1">Status</p>
+                 <p className="font-black text-sm uppercase" style={{ color: themeColors.primary }}>Active / Verified</p>
+               </div>
+               <div className="bg-slate-50 border border-slate-200 p-3 rounded-sm">
+                 <p className="text-slate-400 text-[8px] uppercase tracking-widest font-bold mb-1">Endorsing</p>
+                 <p className="font-black text-sm uppercase text-slate-800">Hon. Hassan S.H.</p>
+               </div>
+             </div>
 
-            {/* Slogan & Verification Details */}
-            <div className="w-full flex flex-col items-center text-center mt-auto">
-              <p className="text-white font-black uppercase text-[10px] tracking-widest bg-white/5 px-4 py-1.5 rounded-full border border-white/10 mb-3">
-                VALID THRU 2027
-              </p>
-              
-              {/* Glassmorphic message container */}
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 w-[90%] mb-4">
-                <p className="text-white font-bold italic text-sm">
-                  "{customMessage || 'TOGETHER WE RISE'}"
+             {/* Statement Block */}
+             <div className="flex-1 bg-slate-100 border border-slate-200 p-5 rounded-sm relative">
+                <span className="material-symbols-outlined absolute top-4 left-4 text-slate-200 text-4xl leading-none">format_quote</span>
+                <p className="font-black italic text-lg lg:text-xl text-slate-700 tracking-wide leading-snug relative z-10 mt-4">
+                  "{customMessage || 'COMMITTED TO PROGRESS AND TRANSPARENCY'}"
                 </p>
-              </div>
+             </div>
 
-              {/* Footer */}
-              <div className="w-full">
-                <div className={`w-[80%] h-[1px] bg-gradient-to-r from-transparent via-${themeColors.accent} to-transparent mx-auto mb-3 opacity-40`}></div>
-                <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-white font-black uppercase text-2xl tracking-widest">
-                  HON. HASH 2027
-                </h2>
-              </div>
-            </div>
+             {/* Footer Elements */}
+             <div className="mt-6 flex justify-between items-end">
+               <div className="h-10 w-48 opacity-70 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Code_39.svg/1200px-Code_39.svg.png')] bg-contain bg-left bg-no-repeat mix-blend-multiply" />
+               <div className="text-right">
+                 <div className="w-10 h-10 rounded-full border-2 flex items-center justify-center ml-auto mb-1 bg-white" style={{ borderColor: themeColors.secondary }}>
+                   <span className="material-symbols-outlined text-xl" style={{ color: themeColors.primary }}>fingerprint</span>
+                 </div>
+                 <p className="font-black text-[8px] text-slate-400 uppercase tracking-widest">NASSARAWA FIRST</p>
+               </div>
+             </div>
+
           </div>
-        )}
+
+        </div>
+
       </div>
     </div>
   )

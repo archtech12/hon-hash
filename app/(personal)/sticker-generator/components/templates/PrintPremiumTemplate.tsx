@@ -3,7 +3,7 @@ import { CandidatePortrait } from '../shared/CandidatePortrait'
 
 export const PrintPremiumTemplate = ({ data }: TemplateProps) => {
   const { supporterName, supporterPhoto, customMessage, aspectRatio } = data
-  const isLandscape = aspectRatio === 'landscape'
+  const isLandscape = ['landscape', 'square', 'print'].includes(aspectRatio)
   const isStory = aspectRatio === 'story'
 
   return (

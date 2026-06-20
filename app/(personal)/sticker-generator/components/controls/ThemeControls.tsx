@@ -153,8 +153,8 @@ export const ThemeControls = ({ data, onUpdate }: ThemeControlsProps) => {
       {/* Aspect Ratio */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Size & Format</label>
-        <div className="grid grid-cols-5 gap-2">
-          {(['square', 'portrait', 'story', 'landscape', 'print'] as AspectRatio[]).map(ratio => (
+        <div className="grid grid-cols-4 gap-2">
+          {(['square', 'portrait', 'landscape', 'print'] as AspectRatio[]).map(ratio => (
             <button
               key={ratio}
               onClick={() => onUpdate('aspectRatio', ratio)}
@@ -165,7 +165,6 @@ export const ThemeControls = ({ data, onUpdate }: ThemeControlsProps) => {
             >
               <span className={`block bg-current rounded-sm ${ratio === 'square' ? 'w-5 h-5' :
                   ratio === 'portrait' ? 'w-4 h-5' :
-                    ratio === 'story' ? 'w-3 h-6' :
                       ratio === 'landscape' ? 'w-6 h-3' : 'w-5 h-5'
                 }`}></span>
               <span className="text-[10px]">{ratio === 'portrait' ? 'Feed' : ratio.charAt(0).toUpperCase() + ratio.slice(1)}</span>
