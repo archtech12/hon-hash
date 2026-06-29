@@ -80,7 +80,7 @@ export default function StickerGeneratorPage() {
         
         // Multiplier for ultra-crisp high-res output
         const pixelRatio = window.devicePixelRatio || 1
-        const exportScale = Math.max(3, pixelRatio * 2) 
+        const exportScale = 2 // Optimized for speed while maintaining good quality
 
         console.log('Starting toPng...')
         const image = await toPng(exportRef.current, {
@@ -128,8 +128,7 @@ export default function StickerGeneratorPage() {
         await document.fonts.ready;
       await waitForImages(exportRef.current)
         
-        const pixelRatio = window.devicePixelRatio || 1
-        const exportScale = Math.max(3, pixelRatio * 2)
+        const exportScale = 2 // Optimized for speed while maintaining good quality
 
         const dataUrl = await toPng(exportRef.current, {
             pixelRatio: exportScale,

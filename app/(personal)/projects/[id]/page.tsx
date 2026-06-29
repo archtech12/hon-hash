@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = `${project.title} - Hon. Hassan Shehu Hussain`
   const description = project.description
-  const baseUrl = 'https://hon-hash.vercel.app' // Hardcoded for simplicity/reliability per user context
+  const baseUrl = 'https://honhash.com' // Using the primary domain
   
   // Use the first photo or a default fallback
   const imagePath = (project.images && project.images[0]) || '/placeholder.jpg'
@@ -75,7 +75,7 @@ export default async function ProjectDetailsPage({ params }: Props) {
     notFound()
   }
 
-  const baseUrl = 'https://hon-hash.vercel.app'
+  const baseUrl = 'https://honhash.com'
   const shareUrl = `${baseUrl}/projects/${project._id}`
 
   return (

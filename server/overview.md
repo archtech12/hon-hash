@@ -1,176 +1,337 @@
-# Ghali Dashboard - Political Campaign Website
+Here is a professional prompt you can give to Claude Code, Cursor AI, or GitHub Copilot. It emphasizes **refinement rather than redesign**, ensuring the layouts remain intact while improving their overall quality.
 
-## Project Overview
+---
 
-A comprehensive political campaign website for Hon. Ghali Panda with a modern admin dashboard for content management. The platform includes both public-facing pages and a secure admin interface for managing all website content.
+# UI/UX Refinement Prompt (No Redesign)
 
-## Technology Stack
+You are a Senior UI/UX Designer and Frontend Engineer specializing in premium campaign branding, editorial layouts, modern political identity systems, Apple Wallet, Stripe, Linear, and Swiss Grid design.
 
-- **Frontend**: Next.js 16.0.0 with React and TypeScript
-- **Backend**: Node.js with Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT-based authentication with bcrypt password hashing
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel
+Your task is to **refine** the existing sticker templates, **NOT redesign them**.
 
-## Key Features
+The current layouts, composition, spacing, and overall identity are already approved and should remain recognizable.
 
-### Public Website Features
+## Primary Objective
 
-1. **Responsive Design**: Mobile-first approach ensuring optimal experience on all devices
-2. **Dynamic Content**: All content sections are managed through the admin dashboard
-3. **Constituency Information**: Detailed information about the constituency and initiatives
-4. **News & Updates**: Latest news and announcements from the representative
-5. **Project Showcase**: Portfolio of completed and ongoing projects
-6. **Legislative Work**: Information about legislative activities and achievements
-7. **Media Gallery**: Photo and video gallery of events and activities
-8. **Contact System**: Multiple ways for constituents to get in touch
+Improve visual polish, typography, readability, hierarchy, spacing, shadows, borders, and premium feel while preserving the exact layout structure.
 
-### Admin Dashboard Features
+The goal is to make every template feel professionally art-directed without changing its identity.
 
-1. **Secure Authentication**: JWT token-based login system with role-based access
-2. **User Management**: Create, edit, and delete admin users with different roles
-3. **Content Management**: 
-   - About section editing
-   - Project management with priority levels
-   - News article creation and publishing
-   - Constituency information updates
-   - Legislative work tracking
-   - Media gallery management
-   - Contact information management
-4. **Password Security**: Change password functionality with validation
-5. **Rich Text Editing**: Advanced content editing capabilities
-6. **Image Upload**: Media management system for uploading images
+---
 
-### Public Support System
+# Global Rules
 
-1. **Mobile-Friendly Support Form**: Easy-to-use form for constituents to submit requests
-2. **Categorization**: Different subject categories for better organization
-3. **Contact Information**: Multiple fields for comprehensive communication
+DO NOT:
 
-## Project Structure
+* redesign any template
+* move major components
+* change grid systems
+* alter export logic
+* modify html-to-image functionality
+* break responsive scaling
+* change canvas dimensions
+* change template identities
 
-```
-.
-├── app/                     # Next.js frontend pages
-│   ├── (personal)/         # Public-facing pages
-│   │   ├── about/          # About page
-│   │   ├── constituency/   # Constituency information
-│   │   ├── contact/        # Contact page
-│   │   ├── legislative/    # Legislative work
-│   │   ├── news/           # News section
-│   │   ├── projects/       # Projects showcase
-│   │   ├── support/        # Public support form
-│   │   └── ...             # Other public pages
-│   ├── admin/              # Admin dashboard
-│   │   ├── about/          # About content management
-│   │   ├── constituency/   # Constituency content management
-│   │   ├── contact/        # Contact content management
-│   │   ├── legislative/    # Legislative content management
-│   │   ├── login/          # Admin login page
-│   │   ├── media/          # Media gallery management
-│   │   ├── news/           # News management
-│   │   ├── projects/       # Projects management
-│   │   ├── users/          # User management
-│   │   ├── change-password/ # Password change functionality
-│   │   └── ...             # Other admin sections
-│   └── ...                 # Layout and global components
-├── server/                 # Backend server
-│   ├── controllers/        # Route controllers
-│   ├── middleware/         # Authentication middleware
-│   ├── models/             # Database models
-│   ├── routes/             # API routes
-│   └── ...                 # Server configuration
-└── components/             # Reusable React components
-```
+DO:
 
-## Database Schema
+* improve typography
+* improve spacing consistency
+* improve shadows
+* improve borders
+* improve readability
+* improve visual hierarchy
+* improve premium appearance
+* improve accessibility
+* improve print quality
 
-### User Model
-- Email (unique, required)
-- Password (hashed, required)
-- Name (required)
-- Role (admin/editor, default: admin)
-- Timestamps
+Every refinement must preserve export compatibility.
 
-### Project Model
-- Title (required)
-- Description (required)
-- Category (enum: Education, Infrastructure, etc.)
-- Image URL
-- Status (enum: Planned, Ongoing, Completed, Cancelled)
-- Year
-- Priority (number, 0-10)
-- Timestamps
+---
 
-### News Model
-- Title (required)
-- Excerpt (required, max 200 chars)
-- Content (required)
-- Image URL
-- Category (enum: Announcement, Event, etc.)
-- Author (required)
-- Published (boolean, default: false)
-- Timestamps
+# Typography Refinement
 
-### Constituency Model
-- Name (required)
-- Representative (required)
-- Party (required)
-- Election Year (required)
-- Communities (array of strings)
-- Population (required)
-- Initiatives (array of objects with title, description, icon)
-- Vision Content (required)
-- Timestamps
+Improve typography hierarchy across every template.
 
-## API Endpoints
+Requirements:
 
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - Register new user (admin only)
-- `GET /api/auth/profile` - Get user profile
-- `PUT /api/auth/change-password` - Change password
+* Increase visual hierarchy between:
 
-### User Management
-- `GET /api/auth/users` - Get all users (admin only)
-- `GET /api/auth/users/:id` - Get user by ID (admin only)
-- `PUT /api/auth/users/:id` - Update user (admin only)
-- `DELETE /api/auth/users/:id` - Delete user (admin only)
+  * Candidate name
+  * Campaign slogan
+  * Labels
+  * Footer
+  * Metadata
 
-### Content Management
-- Projects, News, Constituency, Legislative, Media, Contact endpoints follow RESTful patterns for CRUD operations
+Improve:
 
-## Security Features
+* letter spacing
+* line height
+* font weight
+* alignment
+* optical balance
 
-1. **JWT Authentication**: Secure token-based authentication
-2. **Password Hashing**: bcrypt encryption for all passwords
-3. **Role-Based Access**: Different permission levels for admin and editor roles
-4. **Input Validation**: Server-side validation for all data
-5. **Protected Routes**: Middleware to prevent unauthorized access
+Avoid oversized text.
 
-## Deployment
+Typography should feel intentional and premium.
 
-The application is designed for deployment on Vercel with MongoDB Atlas for database hosting. Environment variables are used for configuration:
+---
 
-- `MONGODB_URI`: Database connection string
-- `JWT_SECRET`: Secret key for JWT token generation
-- [PORT](file://c:\Users\lenovo\Abdulkadir%20Rahis\server\server.js#L70-L70): Server port (default: 5000)
+# Photo Cards
 
-## Development Setup
+Do not move photos.
 
-1. Install dependencies: `npm install`
-2. Set up environment variables in `.env` file
-3. Start development servers:
-   - Frontend: `npm run dev`
-   - Backend: `node server/server.js`
-4. Access the application at `http://localhost:3000`
+Instead:
 
-## Future Enhancements
+* improve borders
+* improve corner radius consistency
+* improve shadow softness
+* improve image framing
+* improve placeholder appearance
+* improve depth
 
-1. **Analytics Dashboard**: Track website usage and engagement
-2. **Newsletter System**: Email newsletter subscription and management
-3. **Event Calendar**: Interactive calendar for upcoming events
-4. **Live Streaming**: Integration for live event streaming
-5. **Petition System**: Online petition creation and signing
-6. **Multi-language Support**: Localization for diverse constituencies
+Photo placeholders should feel modern instead of empty.
+
+Use subtle gradients and elegant neutral backgrounds.
+
+---
+
+# Shadows
+
+Replace harsh shadows with layered elevation.
+
+Preferred style:
+
+Small shadow
+
+Medium ambient shadow
+
+Large soft shadow
+
+Avoid heavy black glows.
+
+Everything should feel lighter and cleaner.
+
+---
+
+# Borders
+
+Standardize border thickness.
+
+Use:
+
+* cleaner outlines
+* consistent radii
+* subtle inner borders where appropriate
+
+Avoid inconsistent stroke widths.
+
+---
+
+# Backgrounds
+
+Do not redesign backgrounds.
+
+Only refine them.
+
+Examples:
+
+Reduce excessive visual noise.
+
+Improve gradient transitions.
+
+Reduce competition with typography.
+
+Increase whitespace around important content.
+
+Maintain existing visual identity.
+
+---
+
+# White Space
+
+Improve breathing room.
+
+Ensure:
+
+consistent margins
+
+consistent padding
+
+consistent alignment
+
+balanced spacing
+
+Nothing should appear cramped.
+
+Nothing should feel disconnected.
+
+---
+
+# Color Refinement
+
+Do not change brand colors.
+
+Instead:
+
+Improve contrast.
+
+Improve text readability.
+
+Improve background separation.
+
+Ensure WCAG AA readability wherever possible.
+
+---
+
+# Micro Details
+
+Improve:
+
+icon alignment
+
+badge spacing
+
+label spacing
+
+divider consistency
+
+footer alignment
+
+QR container polish
+
+caption placement
+
+small typography
+
+These refinements should be subtle but noticeable.
+
+---
+
+# Template-Specific Refinements
+
+## Geometric Campaign
+
+Preserve the current layout.
+
+Refine only:
+
+* slogan prominence
+* supporter photo depth
+* candidate placeholder styling
+* background balance
+* subtle elevation
+* spacing around text blocks
+
+Do not move any existing components.
+
+---
+
+## Geometric V2
+
+Preserve the editorial layout.
+
+Improve:
+
+* quote panel
+* placeholder styling
+* border consistency
+* typography hierarchy
+* paper-like subtle texture
+* image framing
+
+Maintain the Swiss editorial aesthetic.
+
+---
+
+## Newspaper / Progress First
+
+Preserve the newspaper aesthetic.
+
+Improve:
+
+headline spacing
+
+editorial typography
+
+photo framing
+
+quote styling
+
+paper texture
+
+micro spacing
+
+Do not modernize it.
+
+Maintain the printed publication identity.
+
+---
+
+## Premium VIP
+
+This is the flagship template.
+
+Refine only:
+
+typography readability
+
+photo card luxury
+
+glass panel quality
+
+metallic accents
+
+lighting
+
+depth
+
+QR panel
+
+micro shadows
+
+background balance
+
+Do not redesign the composition.
+
+Simply elevate it to luxury-grade quality.
+
+---
+
+# Accessibility
+
+Improve readability without sacrificing aesthetics.
+
+Ensure:
+
+strong contrast
+
+comfortable reading
+
+balanced spacing
+
+clear hierarchy
+
+---
+
+# Performance
+
+Do not introduce CSS that breaks html-to-image.
+
+Avoid unsupported filters.
+
+Avoid rendering-heavy effects.
+
+Maintain export compatibility.
+
+---
+
+# Final Requirement
+
+Every template should look like a professionally art-directed version of itself—not a new design.
+
+The result should feel like moving from version **1.0** to **1.5**, not **2.0**.
+
+When finished, provide a summary of:
+
+1. Every refinement made.
+2. Why it improves the design.
+3. Confirmation that no layouts, export logic, responsiveness, or template identities were changed.

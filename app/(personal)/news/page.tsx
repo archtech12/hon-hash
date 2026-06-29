@@ -134,10 +134,10 @@ export default function NewsPage() {
              </div>
            )}
 
-          {/* YouTube Videos Section - Premium */}
+          {/* Featured Videos Section */}
           <div className="mt-24">
             <div className="text-center mb-12">
-                <span className="inline-block px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold mb-4">
+                <span className="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4">
                   WATCH NOW
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">
@@ -149,41 +149,52 @@ export default function NewsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_20px_40px_rgba(220,38,38,0.15)] transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
-                <div className="relative h-64 bg-gray-900 flex items-center justify-center overflow-hidden">
-                   {/* Placeholder for Video Thumbnail */}
-                   <Image
-                      src="/assets/images/gallery/0-Portraits-Official/potraitn.jpg"
-                      alt="Video Thumbnail"
-                      fill
-                      className="object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500 scale-100 group-hover:scale-105"
+              {/* Video 1 */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
+                <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden group-hover:shadow-inner">
+                   <video 
+                     src="/assets/videos/hash.mp4" 
+                     controls 
+                     preload="metadata"
+                     className="w-full h-full object-cover"
+                     poster="/assets/images/gallery/0-Portraits-Official/potraitn.jpg"
                    />
-                  <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="w-20 h-20 bg-red-600/90 backdrop-blur rounded-full flex items-center justify-center cursor-pointer group-hover:scale-110 transition-transform duration-300 shadow-2xl ring-4 ring-white/20">
-                      <span className="material-symbols-outlined text-white text-4xl ml-1">
-                        play_arrow
-                      </span>
-                    </div>
-                  </div>
                 </div>
-                <div className="p-8">
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                    <span className="flex items-center text-red-600 font-bold uppercase tracking-wider text-xs">
+                <div className="p-6">
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
+                    <span className="flex items-center text-green-600 font-bold uppercase tracking-wider text-xs">
                         <span className="material-symbols-outlined text-lg mr-2">smart_display</span>
-                        Video Highlight
+                        Campaign Message
                     </span>
-                    <span>Dec 2024</span>
+                    <span className="font-semibold bg-gray-100 px-2 py-0.5 rounded text-xs">1:29</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900 leading-tight group-hover:text-red-700 transition-colors">
-                     Commissioning of Solar Boreholes and Primary Health Care Centres
+                  <h3 className="text-xl font-bold text-gray-900 leading-tight group-hover:text-green-700 transition-colors">
+                     A Message from Hon. HASH
                   </h3>
-                  <Link
-                    href="#"
-                    className="inline-flex items-center justify-center w-full px-6 py-3 bg-gray-50 text-gray-700 font-bold rounded-xl hover:bg-red-50 hover:text-red-700 transition-all"
-                  >
-                    Watch on YouTube
-                    <span className="material-symbols-outlined ml-2">open_in_new</span>
-                  </Link>
+                </div>
+              </div>
+
+              {/* Video 2 */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
+                <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden group-hover:shadow-inner">
+                   <video 
+                     src="/assets/videos/toapc.mp4" 
+                     controls
+                     preload="metadata" 
+                     className="w-full h-full object-cover"
+                   />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
+                    <span className="flex items-center text-green-600 font-bold uppercase tracking-wider text-xs">
+                        <span className="material-symbols-outlined text-lg mr-2">smart_display</span>
+                        Campaign Trail
+                    </span>
+                    <span className="font-semibold bg-gray-100 px-2 py-0.5 rounded text-xs">1:49</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 leading-tight group-hover:text-green-700 transition-colors">
+                     Campaign Trail & APC Support
+                  </h3>
                 </div>
               </div>
             </div>

@@ -60,85 +60,104 @@ export default function AdminDashboard() {
     {
       title: 'Total Projects',
       value: stats.projects,
-      icon: '📁',
-      color: 'bg-blue-500',
+      icon: 'work',
+      color: 'from-blue-500 to-blue-700',
       link: '/admin/projects',
       description: 'Active community projects',
     },
     {
       title: 'Published News',
       value: stats.news,
-      icon: '📰',
-      color: 'bg-green-500',
+      icon: 'article',
+      color: 'from-green-500 to-green-700',
       link: '/admin/news',
       description: 'News articles published',
     },
     {
       title: 'Media Items',
       value: stats.media,
-      icon: '🎨',
-      color: 'bg-purple-500',
+      icon: 'perm_media',
+      color: 'from-purple-500 to-purple-700',
       link: '/admin/media',
       description: 'Photos and videos',
     },
     {
       title: 'Contact Messages',
       value: stats.contacts,
-      icon: '✉️',
-      color: 'bg-orange-500',
+      icon: 'mail',
+      color: 'from-orange-500 to-orange-700',
       link: '/admin/contact',
       description: 'Messages from constituents',
     },
   ]
 
   const quickLinks = [
-    {title: 'Manage News', icon: '📰', href: '/admin/news', color: 'text-green-600 bg-green-50'},
+    {title: 'Manage News', icon: 'campaign', href: '/admin/news', color: 'text-green-600 bg-green-50 hover:bg-green-100 hover:shadow-green-100'},
     {
       title: 'Manage Projects',
-      icon: '📁',
+      icon: 'construction',
       href: '/admin/projects',
-      color: 'text-blue-600 bg-blue-50',
+      color: 'text-blue-600 bg-blue-50 hover:bg-blue-100 hover:shadow-blue-100',
     },
     {
       title: 'Edit About Page',
-      icon: '👤',
+      icon: 'person_edit',
       href: '/admin/about',
-      color: 'text-purple-600 bg-purple-50',
+      color: 'text-purple-600 bg-purple-50 hover:bg-purple-100 hover:shadow-purple-100',
     },
     {
       title: 'Media Gallery',
-      icon: '🎨',
+      icon: 'collections',
       href: '/admin/media',
-      color: 'text-orange-600 bg-orange-50',
+      color: 'text-orange-600 bg-orange-50 hover:bg-orange-100 hover:shadow-orange-100',
     },
     {
       title: 'Legislative Work',
-      icon: '⚖️',
+      icon: 'gavel',
       href: '/admin/legislative',
-      color: 'text-indigo-600 bg-indigo-50',
+      color: 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100 hover:shadow-indigo-100',
     },
     {
       title: 'Constituency Info',
-      icon: '🏛️',
+      icon: 'map',
       href: '/admin/constituency',
-      color: 'text-teal-600 bg-teal-50',
+      color: 'text-teal-600 bg-teal-50 hover:bg-teal-100 hover:shadow-teal-100',
     },
   ]
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-700"></div>
+      <div className="flex items-center justify-center h-[70vh]">
+        <div className="relative w-20 h-20">
+          <div className="absolute inset-0 rounded-full border-t-4 border-green-500 border-opacity-30"></div>
+          <div className="absolute inset-0 rounded-full border-t-4 border-green-700 animate-spin"></div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-10">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl shadow-lg p-8 text-white">
-        <h1 className="text-3xl font-bold mb-2">Welcome Back, Admin! 👋</h1>
-        <p className="text-green-100">Manage your website content and monitor performance</p>
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#0A2F1D] via-green-800 to-green-900 rounded-3xl shadow-2xl p-8 sm:p-10 text-white">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-yellow-400 rounded-full mix-blend-overlay filter blur-[80px] opacity-30"></div>
+        <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-green-400 rounded-full mix-blend-overlay filter blur-[80px] opacity-30"></div>
+        
+        <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight">
+              Welcome Back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Administrator</span>
+            </h1>
+            <p className="text-green-100/90 text-lg font-light max-w-xl">
+              Your command center is active. Manage content, analyze metrics, and drive the campaign forward.
+            </p>
+          </div>
+          <Link href="/admin/post-creator" className="flex-shrink-0 bg-yellow-400 text-green-950 font-bold px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(250,204,21,0.3)] hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+            <span className="material-symbols-outlined">add_circle</span>
+            Create Post
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -152,9 +171,9 @@ export default function AdminDashboard() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div
-                  className={`${card.color} w-12 h-12 rounded-lg flex items-center justify-center text-2xl transform group-hover:scale-110 transition-transform`}
+                  className={`bg-gradient-to-br ${card.color} w-14 h-14 rounded-2xl flex items-center justify-center text-white transform group-hover:scale-110 transition-transform shadow-lg`}
                 >
-                  {card.icon}
+                  <span className="material-symbols-outlined text-3xl">{card.icon}</span>
                 </div>
                 <span className="material-symbols-outlined text-gray-400 group-hover:text-green-600 transition-colors">
                   arrow_forward
@@ -181,7 +200,9 @@ export default function AdminDashboard() {
               href={link.href}
               className={`${link.color} p-4 rounded-lg text-center hover:shadow-md transition-all duration-200 transform hover:scale-105`}
             >
-              <div className="text-3xl mb-2">{link.icon}</div>
+              <div className="mb-3 flex justify-center">
+                <span className="material-symbols-outlined text-4xl opacity-80 group-hover:scale-110 transition-transform">{link.icon}</span>
+              </div>
               <p className="text-sm font-medium">{link.title}</p>
             </Link>
           ))}

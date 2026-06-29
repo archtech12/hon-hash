@@ -289,7 +289,7 @@ export default function ProjectsPage() {
                     
                     <div className="flex items-center gap-2">
                        <a 
-                        href={`https://wa.me/?text=${encodeURIComponent(`Check out this project by Hon. HASH: ${lang === 'en' ? project.title : project.titleHA} - ${typeof window !== 'undefined' ? window.location.origin : ''}/projects/${project._id}`)}`}
+                        href={`https://wa.me/?text=${encodeURIComponent(`Check out this project by Hon. HASH: ${lang === 'en' ? project.title : project.titleHA} - https://honhash.com/projects/${project._id}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50 text-green-600 hover:bg-green-500 hover:text-white transition-all duration-300 mx-1"
@@ -300,7 +300,7 @@ export default function ProjectsPage() {
                       </a>
                       
                       <a 
-                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${lang === 'en' ? project.title : project.titleHA} via @HonHASH`)}&url=${encodeURIComponent(`${typeof window !== 'undefined' ? window.location.origin : ''}/projects/${project._id}`)}`}
+                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${lang === 'en' ? project.title : project.titleHA} via @HonHASH`)}&url=${encodeURIComponent(`https://honhash.com/projects/${project._id}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-400 hover:bg-blue-400 hover:text-white transition-all duration-300 mx-1"
@@ -311,7 +311,7 @@ export default function ProjectsPage() {
                       </a>
 
                       <a 
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${typeof window !== 'undefined' ? window.location.origin : ''}/projects/${project._id}`)}`}
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://honhash.com/projects/${project._id}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 mx-1"
@@ -322,7 +322,7 @@ export default function ProjectsPage() {
                       </a>
                       
                       <button
-                        onClick={(e) => { e.stopPropagation(); copyToClipboard(`${lang === 'en' ? project.title : project.titleHA}\n${project.description}\n${window.location.origin}/projects/${project._id}`) }}
+                        onClick={(e) => { e.stopPropagation(); copyToClipboard(`${lang === 'en' ? project.title : project.titleHA}\n${project.description}\nhttps://honhash.com/projects/${project._id}`) }}
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-700 hover:text-white transition-all duration-300 mx-1"
                         title="Copy Link"
                         aria-label="Copy Project Link"

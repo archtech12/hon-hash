@@ -2,6 +2,8 @@
 
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
@@ -65,258 +67,184 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-800 via-green-700 to-green-900 relative overflow-hidden">
-        {/* Animated background blobs */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-blob"></div>
-          <div
-            className="absolute top-40 right-20 w-72 h-72 bg-yellow-300 rounded-full mix-blend-overlay filter blur-3xl animate-blob"
-            style={{animationDelay: '2s'}}
-          ></div>
-          <div
-            className="absolute bottom-20 left-40 w-72 h-72 bg-green-300 rounded-full mix-blend-overlay filter blur-3xl animate-blob"
-            style={{animationDelay: '4s'}}
-          ></div>
-        </div>
+    <div className="min-h-screen flex w-full font-sans bg-gray-50">
+      {/* Left Side - Premium Branding */}
+      <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden bg-green-900">
+        {/* Deep, rich animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800 to-[#0A2F1D]"></div>
+        
+        {/* Subtle geometric overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}></div>
 
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center px-16 text-white">
-          <div className="mb-8">
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 shadow-2xl">
-              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path>
-              </svg>
+        {/* Abstract Glows */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-green-500 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#FFD700] rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+        <div className="relative z-10 flex flex-col justify-between h-full p-16 w-full">
+          <div>
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-10 border border-white/20 shadow-2xl">
+              <span className="material-symbols-outlined text-white text-3xl">admin_panel_settings</span>
             </div>
-            <h1 className="text-5xl font-black mb-4 leading-tight">
-              Welcome Back,
-              <br />
-              <span className="text-yellow-300">Administrator</span>
+            <h1 className="text-4xl xl:text-5xl font-black text-white mb-6 leading-[1.1] tracking-tight">
+              Campaign<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-yellow-200">
+                Command Center
+              </span>
             </h1>
-            <p className="text-xl text-green-100 leading-relaxed">
-              Access the Hon. Hassan Shehu Hussain Campaign Dashboard
+            <p className="text-lg text-green-100/80 leading-relaxed max-w-md font-light">
+              Secure access to manage the Hon. Hassan Shehu Hussain 2027 campaign initiatives, media, and community outreach.
             </p>
           </div>
 
-          <div className="space-y-4 mt-12">
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="material-symbols-outlined text-green-900 text-2xl">dashboard</span>
-              </div>
-              <div>
-                <p className="font-bold text-lg">Campaign Management</p>
-                <p className="text-green-100 text-sm">Control all campaign content</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="material-symbols-outlined text-green-900 text-2xl">
-                  volunteer_activism
-                </span>
-              </div>
-              <div>
-                <p className="font-bold text-lg">Volunteer Management</p>
-                <p className="text-green-100 text-sm">Track and organize supporters</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="material-symbols-outlined text-green-900 text-2xl">analytics</span>
-              </div>
-              <div>
-                <p className="font-bold text-lg">Real-time Analytics</p>
-                <p className="text-green-100 text-sm">Monitor campaign performance</p>
-              </div>
-            </div>
+          {/* Premium stats/features glassmorphism card */}
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-50"></div>
+             <div className="space-y-6">
+               <div className="flex items-center gap-4">
+                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/5">
+                   <span className="material-symbols-outlined text-[#FFD700] text-sm">security</span>
+                 </div>
+                 <div>
+                   <h3 className="text-white font-semibold text-sm">Enterprise Security</h3>
+                   <p className="text-white/50 text-xs mt-0.5">End-to-end encrypted sessions</p>
+                 </div>
+               </div>
+               <div className="flex items-center gap-4">
+                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/5">
+                   <span className="material-symbols-outlined text-[#FFD700] text-sm">speed</span>
+                 </div>
+                 <div>
+                   <h3 className="text-white font-semibold text-sm">Real-time Management</h3>
+                   <p className="text-white/50 text-xs mt-0.5">Instant updates to live portal</p>
+                 </div>
+               </div>
+             </div>
           </div>
         </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gray-50 py-8 sm:py-12">
-        <div className="max-w-md w-full space-y-6 sm:space-y-8">
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex justify-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-800 rounded-2xl flex items-center justify-center shadow-xl">
-              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path>
-              </svg>
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-20 relative">
+        <div className="w-full max-w-[420px] space-y-8">
+          
+          {/* Mobile Branding */}
+          <div className="lg:hidden flex flex-col items-center text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-green-800 to-green-900 rounded-2xl flex items-center justify-center mb-6 shadow-xl">
+               <span className="material-symbols-outlined text-white text-3xl">admin_panel_settings</span>
             </div>
+            <h2 className="text-3xl font-black text-gray-900 tracking-tight">Admin Login</h2>
+            <p className="text-gray-500 mt-2">Sign in to your dashboard</p>
           </div>
 
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 text-center">
-              Admin Portal
-            </h2>
-            <p className="mt-2 text-center text-sm sm:text-base text-gray-600">
-              Sign in to access the campaign dashboard
-            </p>
+          <div className="hidden lg:block">
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Sign In</h2>
+            <p className="text-gray-500 mt-2 text-sm">Enter your credentials to access the portal</p>
           </div>
 
-          <form className="mt-6 sm:mt-8 space-y-5 sm:space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg animate-shake">
-                <div className="flex items-center">
-                  <span className="material-symbols-outlined text-red-500 mr-3">error</span>
-                  <p className="text-red-700 text-sm font-medium">{error}</p>
-                </div>
+              <div className="bg-red-50 border border-red-100 rounded-xl p-4 flex items-start animate-fade-in">
+                <span className="material-symbols-outlined text-red-500 mr-3 text-xl shrink-0">error</span>
+                <p className="text-red-700 text-sm font-medium pt-0.5">{error}</p>
               </div>
             )}
 
             <div className="space-y-5">
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className="material-symbols-outlined text-gray-400">mail</span>
-                  </div>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 sm:py-3.5 border-2 border-gray-200 rounded-xl text-base sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    placeholder="admin@example.com"
-                  />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <span className="material-symbols-outlined text-gray-400 group-focus-within:text-green-600 transition-colors">mail</span>
                 </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className="material-symbols-outlined text-gray-400">lock</span>
-                  </div>
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    autoComplete="current-password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-12 py-3 sm:py-3.5 border-2 border-gray-200 rounded-xl text-base sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    <span className="material-symbols-outlined text-gray-400 hover:text-gray-600">
-                      {showPassword ? 'visibility_off' : 'visibility'}
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
-              <div className="flex items-center">
                 <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded cursor-pointer"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600/20 focus:border-green-600 transition-all hover:border-gray-300 shadow-sm"
+                  placeholder="Administrator Email"
                 />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-700 cursor-pointer"
-                >
-                  Remember me
-                </label>
               </div>
 
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-green-600 hover:text-green-500 transition-colors"
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <span className="material-symbols-outlined text-gray-400 group-focus-within:text-green-600 transition-colors">lock</span>
+                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full pl-12 pr-12 py-3.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600/20 focus:border-green-600 transition-all hover:border-gray-300 shadow-sm"
+                  placeholder="Password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
                 >
-                  Forgot password?
-                </a>
+                  <span className="material-symbols-outlined text-[20px]">
+                    {showPassword ? 'visibility_off' : 'visibility'}
+                  </span>
+                </button>
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative w-full flex justify-center items-center gap-2 py-3.5 sm:py-3 px-4 border border-transparent text-base sm:text-base font-bold rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl active:scale-95 sm:hover:scale-[1.02] touch-manipulation"
-              >
-                {loading ? (
-                  <>
-                    <svg
-                      className="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    <span>Signing in...</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="material-symbols-outlined">login</span>
-                    <span>Sign In</span>
-                  </>
-                )}
-              </button>
+            <div className="flex items-center justify-between">
+              <label className="flex items-center cursor-pointer group">
+                <div className="relative flex items-center justify-center">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="peer sr-only"
+                  />
+                  <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:bg-green-600 peer-checked:border-green-600 transition-all"></div>
+                  <span className="material-symbols-outlined text-white text-[14px] absolute opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none">check</span>
+                </div>
+                <span className="ml-3 text-sm font-medium text-gray-600 group-hover:text-gray-900 transition-colors">Remember me</span>
+              </label>
+
+              <a href="#" className="text-sm font-semibold text-green-700 hover:text-green-800 transition-colors">
+                Forgot Password?
+              </a>
             </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="relative w-full flex justify-center items-center gap-2 py-3.5 px-4 rounded-xl text-white font-bold bg-green-800 hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800 disabled:opacity-70 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl active:scale-[0.98] overflow-hidden group"
+            >
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+              
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Authenticating...</span>
+                </>
+              ) : (
+                <>
+                  <span>Sign In to Dashboard</span>
+                  <span className="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                </>
+              )}
+            </button>
           </form>
 
-          {/* Demo Credentials */}
-          <div className="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <span className="material-symbols-outlined text-blue-600 text-xl">info</span>
-              <div className="flex-1">
-                <p className="text-sm font-bold text-gray-900 mb-2">Demo Credentials</p>
-                <div className="space-y-1 text-xs text-gray-700">
-                  <p className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-xs">mail</span>
-                    <strong>Email:</strong> admin@honhash.gov.ng
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-xs">key</span>
-                    <strong>Password:</strong> Admin123!
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="pt-8 text-center">
+            <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+              Return to Website
+            </Link>
           </div>
 
-          {/* Footer */}
-          <div className="text-center text-xs text-gray-500 space-y-1">
-            <p>© 2026 Hon. Hassan Shehu Hussain</p>
-            <p>Secure Campaign Management System</p>
-          </div>
         </div>
       </div>
     </div>

@@ -171,9 +171,14 @@ export const SiteFooter = () => {
                   </svg>
                 </a>
               </div>
-              <p className="text-sm sm:text-base text-gray-400 text-center sm:text-left">
-                © 2024 Hon. Hassan Shehu Hussain (Hon. HASH). All rights reserved.
-              </p>
+              <div className="flex flex-col items-center sm:items-end gap-1">
+                <p className="text-sm sm:text-base text-gray-400 text-center sm:text-right">
+                  © 2024 Hon. Hassan Shehu Hussain (Hon. HASH). All rights reserved.
+                </p>
+                <p className="text-xs text-gray-500 text-center sm:text-right">
+                  Designed & Developed by <a href="https://wa.me/2347063925919" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-white font-bold transition-colors">Nurix Solutions</a>
+                </p>
+              </div>
             </div>
           </div>
         </footer>

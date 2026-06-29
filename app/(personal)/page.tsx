@@ -2,6 +2,7 @@
 
 import { HomePage } from '@/components/HomePage'
 import { MediaGallery } from '@/components/MediaGallery'
+import { VideoGallery } from '@/components/VideoGallery'
 import { ContactSection } from '@/components/ContactSection'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -87,6 +88,9 @@ export default function IndexRoute() {
   return (
     <div>
       <HomePage data={mockData} />
+      
+      {/* Video Section - Placed high for maximum engagement */}
+      <VideoGallery />
 
       {/* Featured Projects Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">

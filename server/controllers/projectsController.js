@@ -61,7 +61,8 @@ const createProject = async (req, res) => {
       });
     }
 
-    title,
+    const {
+      title,
       titleHA,
       description,
       category,

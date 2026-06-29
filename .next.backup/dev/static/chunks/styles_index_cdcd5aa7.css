@@ -1,0 +1,83 @@
+/* [project]/styles/index.css [app-client] (css) */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+p:not(:last-child) {
+  margin-bottom: .875rem;
+}
+
+ol, ul {
+  margin-left: 1rem;
+}
+
+ol {
+  list-style-type: disc;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0)scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px)scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px)scale(.9);
+  }
+
+  100% {
+    transform: translate(0)scale(1);
+  }
+}
+
+.animate-blob {
+  animation: 7s infinite blob;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: .3s ease-out slideDown;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/*# sourceMappingURL=styles_index_cdcd5aa7.css.map*/
