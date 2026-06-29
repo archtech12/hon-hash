@@ -19,57 +19,45 @@ export const TypeTemplate = ({ data }: TemplateProps) => {
   return (
     <div className="w-full h-full font-sans overflow-hidden flex relative select-none" style={{ backgroundColor: themeColors.bg, containerType: 'inline-size' }}>
       
-      {/* ── BACKGROUND GRAIN & MICRO-DECORATIVE VECTORS ── */}
+      {/* ── BACKGROUND REFINEMENT ── */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] pointer-events-none" />
-      <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      
-      {/* Alignment Crosses */}
-      <div className="absolute top-10 right-10 w-4 h-4 pointer-events-none">
-         <div className="absolute top-1/2 left-0 w-full h-px bg-slate-400" />
-         <div className="absolute left-1/2 top-0 h-full w-px bg-slate-400" />
-      </div>
-      <div className="absolute bottom-10 left-10 w-4 h-4 pointer-events-none">
-         <div className="absolute top-1/2 left-0 w-full h-px bg-slate-400" />
-         <div className="absolute left-1/2 top-0 h-full w-px bg-slate-400" />
-      </div>
+      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_100%)] pointer-events-none" />
 
-      {/* ── MASSIVE SWISS TYPOGRAPHY (Background Graphic) ── */}
-      <div className="absolute -top-[10%] -left-[10%] w-[120%] h-[120%] pointer-events-none flex flex-col justify-center opacity-20 overflow-hidden mix-blend-overlay">
-        <h1 className="leading-[0.75] font-black uppercase tracking-tighter whitespace-nowrap drop-shadow-xl" style={{ color: themeColors.contrast, fontSize: '60cqw' }}>
+      {/* ── MASSIVE SWISS TYPOGRAPHY (Background Graphic - Reduced Opacity) ── */}
+      <div className="absolute -top-[5%] -left-[10%] w-[120%] h-[120%] pointer-events-none flex flex-col justify-center opacity-10 overflow-hidden mix-blend-overlay">
+        <h1 className="leading-[0.75] font-black uppercase tracking-tighter whitespace-nowrap" style={{ color: themeColors.contrast, fontSize: '60cqw' }}>
           HASSAN
         </h1>
-        <h1 className="leading-[0.75] font-black uppercase tracking-tighter whitespace-nowrap ml-32 drop-shadow-xl" style={{ color: themeColors.contrast, fontSize: '60cqw' }}>
+        <h1 className="leading-[0.75] font-black uppercase tracking-tighter whitespace-nowrap ml-32" style={{ color: themeColors.contrast, fontSize: '60cqw' }}>
           SHEHU
         </h1>
-        <h1 className="leading-[0.75] font-black uppercase tracking-tighter whitespace-nowrap ml-16 drop-shadow-xl" style={{ color: themeColors.contrast, fontSize: '60cqw' }}>
+        <h1 className="leading-[0.75] font-black uppercase tracking-tighter whitespace-nowrap ml-16" style={{ color: themeColors.contrast, fontSize: '60cqw' }}>
           HUSSAIN
         </h1>
       </div>
 
-      <div className={`relative z-10 w-full h-full flex ${isLandscape ? 'flex-row' : 'flex-col'} p-6 sm:p-12 min-h-0`}>
+      <div className={`relative z-10 w-full h-full flex ${isLandscape ? 'flex-row' : 'flex-col'} p-8 sm:p-14 min-h-0`}>
         
         {/* ================= LEFT / TOP: TYPOGRAPHY ================= */}
-        <div className={`flex flex-col ${isLandscape ? 'w-[55%] justify-center pr-6 sm:pr-8 border-r-[8px] sm:border-r-[12px]' : 'h-[45%] justify-end pb-6 sm:pb-8 border-b-[8px] sm:border-b-[12px]'} shrink-0 min-h-0`} style={{ borderColor: themeColors.text }}>
+        <div className={`flex flex-col ${isLandscape ? 'w-[55%] justify-center pr-8 sm:pr-10 border-r-[4px] sm:border-r-[6px]' : 'h-[45%] justify-end pb-8 sm:pb-10 border-b-[4px] sm:border-b-[6px]'} shrink-0 min-h-0 relative`} style={{ borderColor: 'rgba(255,255,255,0.3)' }}>
           
-          <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-             <span className="font-black tracking-[0.3em] sm:tracking-[0.4em] uppercase px-3 py-1.5 sm:px-4 sm:py-2 text-white shadow-lg" style={{ backgroundColor: themeColors.accent, fontSize: '1.02cqw' }}>2027 Mandate</span>
+          <div className="absolute top-0 left-0">
+             <span className="font-black tracking-[0.4em] uppercase px-4 py-2 text-white rounded-sm shadow-[0_4px_10px_rgba(0,0,0,0.15)]" style={{ backgroundColor: themeColors.accent, fontSize: '1.02cqw' }}>POWERED BY HON. HASH 2027</span>
           </div>
 
           <div className="mt-auto min-h-0 shrink-0">
-            {/* Supporter Name built as structural type, strict word-breaking to prevent splitting letters */}
-            <h2 className="font-black uppercase leading-[0.85] tracking-tighter mb-1 sm:mb-2 break-words max-w-full drop-shadow-md" style={{ color: themeColors.text, fontSize: '5.09cqw' }}>
+            {/* Supporter Name - Improved Hierarchy & Shadow */}
+            <h2 className="font-black uppercase leading-[0.85] tracking-tight mb-2 break-words max-w-full" style={{ color: themeColors.text, fontSize: '4.8cqw', textShadow: '0 4px 15px rgba(0,0,0,0.15)' }}>
               {firstName}
             </h2>
-            <h2 className="font-black uppercase leading-[0.85] tracking-tighter mb-4 sm:mb-8 break-words max-w-full drop-shadow-md" style={{ color: themeColors.accent, fontSize: '5.09cqw' }}>
+            <h2 className="font-black uppercase leading-[0.85] tracking-tight mb-6 sm:mb-10 break-words max-w-full" style={{ color: themeColors.accent, fontSize: '4.8cqw', textShadow: '0 4px 15px rgba(0,0,0,0.15)' }}>
               {lastName}
             </h2>
 
-            {/* Vision Statement Block (Deep Border Accent) */}
-            <div className="flex items-center gap-2 sm:gap-4 bg-white/10 backdrop-blur-md p-3 sm:p-6 border-l-[8px] sm:border-l-[16px] shadow-[10px_10px_30px_rgba(0,0,0,0.2)] relative shrink-0" style={{ borderColor: themeColors.accent }}>
-              <div className="absolute top-0 right-0 p-1 sm:p-2 opacity-40">
-                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 border-t-2 border-r-2 border-white" />
-              </div>
-              <p className="font-black uppercase tracking-[0.2em] leading-snug break-words drop-shadow-sm" style={{ color: themeColors.text, fontSize: '1.28cqw' }}>
+            {/* Quote Panel - Refined with subtle gradient & padding */}
+            <div className="flex items-center gap-4 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md p-5 sm:p-8 border-l-[6px] sm:border-l-[8px] rounded-r-xl shadow-[0_15px_30px_-5px_rgba(0,0,0,0.15)] relative shrink-0" style={{ borderColor: themeColors.accent }}>
+              <p className="font-bold uppercase tracking-[0.2em] leading-relaxed break-words" style={{ color: themeColors.text, fontSize: '1.28cqw' }}>
                 "{customMessage || 'NO NOISE. JUST WORK.'}"
               </p>
             </div>
@@ -77,19 +65,19 @@ export const TypeTemplate = ({ data }: TemplateProps) => {
         </div>
 
         {/* ================= RIGHT / BOTTOM: STRICT GRID IMAGES ================= */}
-        <div className={`flex ${isLandscape ? 'w-[45%] flex-col pl-8 justify-center gap-8' : 'h-[55%] flex-row items-end pt-8 justify-between gap-4'} relative`}>
+        <div className={`flex ${isLandscape ? 'w-[45%] flex-col pl-10 justify-center gap-10' : 'h-[55%] flex-row items-end pt-10 justify-between gap-6'} relative`}>
           
-          <div className="w-full flex gap-4 h-full items-center justify-center">
+          <div className="w-full flex gap-6 h-full items-center justify-center">
             {/* CANDIDATE PHOTO */}
-            <div className={`relative flex-1 aspect-[3/4] bg-white overflow-hidden shadow-[15px_15px_30px_rgba(0,0,0,0.25)] border-[6px]`} style={{ borderColor: themeColors.text }}>
+            <div className={`relative flex-1 aspect-[3/4] bg-white overflow-hidden rounded-xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.4)] border-[4px]`} style={{ borderColor: themeColors.text }}>
                <CandidatePortrait className="w-full h-full object-cover" />
-               <div className="absolute top-0 left-0 bg-white/95 backdrop-blur-md px-3 py-1.5 border-b-[4px] border-r-[4px]" style={{ borderColor: themeColors.text }}>
-                 <p className="font-black text-[1.02cqw] uppercase tracking-[0.2em]" style={{ color: themeColors.accent }}>THE VISION</p>
+               <div className="absolute top-0 left-0 bg-white px-4 py-2 border-b-[3px] border-r-[3px] rounded-br-xl shadow-sm" style={{ borderColor: themeColors.text }}>
+                 <p className="font-black text-[1cqw] uppercase tracking-[0.25em]" style={{ color: themeColors.accent }}>THE VISION</p>
                </div>
             </div>
 
             {/* SUPPORTER PHOTO */}
-            <div className={`relative flex-1 aspect-[3/4] bg-white overflow-hidden shadow-[15px_15px_30px_rgba(0,0,0,0.25)] border-[6px]`} style={{ borderColor: themeColors.accent }}>
+            <div className={`relative flex-1 aspect-[3/4] bg-white overflow-hidden rounded-xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.4)] border-[4px]`} style={{ borderColor: themeColors.accent }}>
                {supporterPhoto ? (
                  <img src={supporterPhoto} crossOrigin="anonymous" className="w-full h-full object-cover" />
                ) : (
@@ -97,8 +85,8 @@ export const TypeTemplate = ({ data }: TemplateProps) => {
                    <span className="material-symbols-outlined text-[7.41cqw]">person</span>
                  </div>
                )}
-               <div className="absolute top-0 left-0 bg-white/95 backdrop-blur-md px-3 py-1.5 border-b-[4px] border-r-[4px]" style={{ borderColor: themeColors.accent }}>
-                 <p className="font-black text-[1.02cqw] uppercase tracking-[0.2em]" style={{ color: themeColors.text }}>THE VOTER</p>
+               <div className="absolute top-0 left-0 bg-white px-4 py-2 border-b-[3px] border-r-[3px] rounded-br-xl shadow-sm" style={{ borderColor: themeColors.accent }}>
+                 <p className="font-black text-[1cqw] uppercase tracking-[0.25em]" style={{ color: themeColors.text }}>THE VOTER</p>
                </div>
             </div>
           </div>
@@ -107,9 +95,10 @@ export const TypeTemplate = ({ data }: TemplateProps) => {
 
       </div>
 
-      {/* Frame border */}
-      <div className="absolute inset-0 border-[16px] pointer-events-none z-50" style={{ borderColor: themeColors.bg }} />
-      <div className="absolute inset-[16px] border-[4px] pointer-events-none z-50" style={{ borderColor: themeColors.text }} />
+      {/* Frame border - Refined precision */}
+      <div className="absolute inset-0 border-[14px] pointer-events-none z-50 rounded-lg" style={{ borderColor: themeColors.bg }} />
+      <div className="absolute inset-[14px] border-[3px] pointer-events-none z-50 rounded-sm" style={{ borderColor: themeColors.text, opacity: 0.8 }} />
     </div>
   )
 }
+
