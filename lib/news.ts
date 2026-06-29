@@ -1,5 +1,14 @@
 export const news = [
     {
+        _id: '9-continuity-2027',
+        title: 'The #HASH 2027 CONTINUITY Movement Gains Massive Momentum in Nasarawa',
+        content: '<p>The constituents of Nasarawa Federal Constituency have officially endorsed the <strong>#HASH 2027 CONTINUITY</strong> movement, celebrating the unprecedented achievements of <strong>Hon. Hassan Shehu Hussain</strong>. From infrastructure and healthcare to direct youth empowerment, the community has seen the tangible benefits of his leadership. As we approach 2027, the call for continuity grows louder, ensuring that the transformative projects initiated by Hon. Hash are sustained and expanded for the prosperity of all.</p>',
+        category: 'Politics',
+        imageUrl: '/assets/images/gallery/0-Portraits-Official/potraitn.jpg',
+        publishDate: new Date().toISOString(),
+        excerpt: 'Nasarawa Federal Constituency officially endorses Hon. Hassan Shehu Hussain for the 2027 CONTINUITY campaign following massive infrastructural success.',
+    },
+    {
         _id: '1',
         title: 'Hassan Hussain Sponsors Education for 30 Orphans',
         content: '<p>Hon. Hassan Shehu Hussain has launched a full sponsorship program for 30 orphaned children from his neighborhood. The comprehensive package covers school fees, uniforms, and educational materials at private schools, ensuring these vulnerable children have access to quality education and a brighter future.</p>',

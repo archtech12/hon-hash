@@ -5,10 +5,10 @@ import { Metadata, Viewport } from 'next'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Hon. Hassan Shehu Hussain (Hon. HASH) - Member, House of Representatives',
+    default: 'Hon. Hassan Shehu Hussain (Hon. HASH) - Nasarawa Federal Constituency',
     template: '%s | Hon. HASH',
   },
-  description: 'Official website of Hon. Hassan Shehu Hussain (Hon. HASH), Member representing Nasarawa Federal Constituency in the House of Representatives under the All Progressives Congress (APC).',
+  description: 'Official website of Hon. Hassan Shehu Hussain (Hon. HASH), Member representing Nasarawa Federal Constituency in the House of Representatives. Discover our achievements and join the #HASH 2027 CONTINUITY movement.',
   keywords: [
     'Hassan Shehu Hussain',
     'Hon. HASH',
@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     'Kano',
     'House of Representatives',
     'Nigeria Politics',
+    'Hon Hash 2027',
+    'HASH 2027 CONTINUITY',
     'Community Development',
     'APC',
   ],
@@ -25,11 +27,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_NG',
-    url: 'https://hassan-shehu-hussain.com',
+    url: 'https://honhash.com',
     siteName: 'Hon. HASH Official',
-    title: 'Hon. Hassan Shehu Hussain - Service to Humanity',
+    title: 'Hon. Hassan Shehu Hussain - HASH 2027 CONTINUITY',
     description:
-      'Celebrating the impactful service of Hon. Hassan Shehu Hussain in Nasarawa Federal Constituency. Empowering communities through dedicated leadership.',
+      'Celebrating the impactful service of Hon. Hassan Shehu Hussain in Nasarawa Federal Constituency. Empowering communities through dedicated leadership and ensuring continuity in 2027.',
     images: [
       {
         url: '/assets/images/gallery/0-Portraits-Official/potraitn.jpg',
@@ -41,9 +43,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hon. HASH - Service to Humanity',
+    title: 'Hon. HASH - Nasarawa Federal Constituency',
     description:
-      'Championing development in Nasarawa Federal Constituency. Member, House of Representatives.',
+      'Championing development in Nasarawa Federal Constituency. Join the #HASH 2027 CONTINUITY movement today.',
     images: ['/assets/images/gallery/0-Portraits-Official/potraitn.jpg'],
     creator: '@HonHASH',
   },

@@ -1,12 +1,14 @@
 'use client'
+import './sticker-styles.css'
 
-import { useRef, useState } from 'react'
-import html2canvas from 'html2canvas'
+import { useRef, useState, useEffect } from 'react'
+import { toPng } from 'html-to-image'
 import { useStickerConfig } from './hooks/useStickerConfig'
 import { StickerPreview } from './components/StickerPreview'
 import { TextControls } from './components/controls/TextControls'
 import { ThemeControls } from './components/controls/ThemeControls'
 import { LayoutSwitcher } from './components/controls/LayoutSwitcher'
+import Link from 'next/link'
 
 export default function StickerGeneratorPage() {
   const { data, updateField } = useStickerConfig()
@@ -14,7 +16,10 @@ export default function StickerGeneratorPage() {
   const exportRef = useRef<HTMLDivElement>(null)
   const [isDownloading, setIsDownloading] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
+  const [generatedFile, setGeneratedFile] = useState<File | null>(null)
   const [generatedStickerId, setGeneratedStickerId] = useState<string | null>(null)
+  // scale state removed to prevent double scaling with StickerCanvas
 
   const saveStickerToSupabase = async (base64Data: string): Promise<string | null> => {
     try {
@@ -54,12 +59,15 @@ export default function StickerGeneratorPage() {
     const images = Array.from(element.getElementsByTagName('img'))
     const promises = images.map((img) => {
       if (img.complete) return Promise.resolve()
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         img.onload = resolve
-        img.onerror = () => reject(new Error(`Failed to load image: ${img.src}`))
+        img.onerror = resolve // Continue even if broken
       })
     })
-    await Promise.all(promises)
+    
+    // 5 second timeout to prevent hanging forever
+    const timeout = new Promise((resolve) => setTimeout(resolve, 5000))
+    await Promise.race([Promise.all(promises), timeout])
   }
 
   const handleDownload = async () => {
@@ -67,18 +75,31 @@ export default function StickerGeneratorPage() {
     
     setIsDownloading(true)
     try {
+        await document.fonts.ready;
         await waitForImages(exportRef.current)
         
-        // Scale off-screen container for double-resolution ultra-crisp output (2160px)
-        const scale = 2
-        const canvas = await html2canvas(exportRef.current, {
-            scale: scale,
-            backgroundColor: null,
-            useCORS: true,
-            logging: false,
+        // Multiplier for ultra-crisp high-res output
+        const pixelRatio = window.devicePixelRatio || 1
+        const exportScale = Math.max(3, pixelRatio * 2) 
+
+        console.log('Starting toPng...')
+        const image = await toPng(exportRef.current, {
+            pixelRatio: exportScale,
+            cacheBust: false,
+            style: {
+                transform: 'none',
+                transformOrigin: 'top left'
+            },
+            filter: (node) => {
+                // Ignore broken or empty images
+                if (node.tagName === 'IMG') {
+                   const img = node as HTMLImageElement;
+                   if (!img.src || img.src === window.location.href) return false;
+                }
+                return true;
+            }
         })
-        
-        const image = canvas.toDataURL('image/png', 1.0)
+        console.log('Finished toPng!')
         
         // Save to Supabase
         const stickerId = generatedStickerId || await saveStickerToSupabase(image)
@@ -89,6 +110,7 @@ export default function StickerGeneratorPage() {
         const link = document.createElement('a')
         link.href = image
         link.download = `hon-hash-sticker-${data.templateId}-${Date.now()}.png`
+        ;(window as any).lastDownloadUrl = image;
         link.click()
     } catch (e) {
         console.error('Download failed', e)
@@ -103,68 +125,46 @@ export default function StickerGeneratorPage() {
     
     setIsSharing(true)
     try {
-        await waitForImages(exportRef.current)
+        await document.fonts.ready;
+      await waitForImages(exportRef.current)
         
-        const scale = 2
-        const canvas = await html2canvas(exportRef.current, {
-            scale: scale,
-            backgroundColor: null,
-            useCORS: true,
-            allowTaint: true,
-            logging: false, 
+        const pixelRatio = window.devicePixelRatio || 1
+        const exportScale = Math.max(3, pixelRatio * 2)
+
+        const dataUrl = await toPng(exportRef.current, {
+            pixelRatio: exportScale,
+            cacheBust: true,
+            style: {
+                transform: 'none',
+                transformOrigin: 'top left'
+            }
         })
         
-        canvas.toBlob(async (blob) => {
+        // Convert base64 to blob
+        const res = await fetch(dataUrl)
+        const blob = await res.blob()
             if (!blob) {
                 alert('Could not generate sticker for sharing.')
                 setIsSharing(false)
                 return
             }
 
-            // Create a file with a safe name and type
             const file = new File([blob], 'hon-hash-sticker.png', { type: 'image/png' })
 
-            // Convert blob to base64 for Supabase
             const reader = new FileReader()
             reader.onloadend = async () => {
               const base64data = reader.result as string
               const stickerId = generatedStickerId || await saveStickerToSupabase(base64data)
               if (stickerId) {
+                setGeneratedStickerId(stickerId)
                 trackAction(stickerId, 'share')
               }
             }
             reader.readAsDataURL(blob)
 
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Hon. Hassan Shehu Hussain Sticker',
-                        text: 'Created with Hon. HASH Campaign Tool'
-                    })
-                } catch (err) {
-                     if ((err as Error).name !== 'AbortError') {
-                        console.error('Share failed', err)
-                        alert(`Sharing failed: ${(err as Error).message}. Try downloading instead.`)
-                     }
-                }
-            } else {
-                alert('Your browser does not support checking for file sharing support. Attempting anyway...')
-                 try {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Hon. Hassan Shehu Hussain Sticker',
-                         text: 'Created with Hon. HASH Campaign Tool'
-                    })
-                } catch (err) {
-                     if ((err as Error).name !== 'AbortError') {
-                        console.error('Share failed', err)
-                        alert(`Sharing failed. Please use the Download button.`)
-                     }
-                }
-            }
+            setGeneratedFile(file)
+            setShowShareModal(true)
             setIsSharing(false)
-        }, 'image/png', 1.0)
     } catch (e) {
         console.error('Share generation failed', e)
         alert(e instanceof Error ? `Image failed to load: ${e.message}. Please check your connection or try a different image.` : 'Could not generate sticker. Please try again.')
@@ -172,159 +172,132 @@ export default function StickerGeneratorPage() {
     }
   }
 
+  const executeNativeShare = async () => {
+    if (!generatedFile) return
+    try {
+        await navigator.share({
+            files: [generatedFile],
+            title: 'Hon. Hassan Shehu Hussain Sticker',
+            text: 'Created with Hon. HASH Campaign Tool. Get yours at https://honhash.com'
+        })
+        setShowShareModal(false)
+    } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+            console.error('Share failed', err)
+            // If it still fails, gracefully tell them to use the fallback methods
+            alert(`Native sharing is restricted by your device. Please download the image to share!`)
+        }
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 font-sans relative overflow-x-hidden text-slate-900 selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-50 font-sans relative overflow-x-hidden text-slate-900 selection:bg-brand-500/30 pb-28 lg:pb-0">
       
-      {/* ── CINEMATIC BACKGROUND EFFECTS (LIGHT MODE) ── */}
+      {/* ── CINEMATIC BACKGROUND EFFECTS (LIGHT STUDIO MODE) ── */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-         {/* Soft ambient glows */}
-         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-green-300/20 rounded-full blur-[150px] mix-blend-multiply opacity-60 animate-pulse-slow"></div>
-         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-green-200/20 rounded-full blur-[150px] mix-blend-multiply opacity-60"></div>
-         {/* High-end dot grid overlay */}
-         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+         <div className="absolute inset-0 opacity-40 mix-blend-overlay" style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+         <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-brand-300/30 rounded-full blur-[150px] mix-blend-multiply opacity-60 animate-pulse-slow"></div>
+         <div className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-gold-300/30 rounded-full blur-[180px] mix-blend-multiply opacity-60"></div>
       </div>
 
-      {/* Off-screen high-resolution export target */}
-      <div className="absolute left-[-9999px] top-[-9999px] pointer-events-none" aria-hidden="true">
-        <div className="relative overflow-hidden">
-          <StickerPreview ref={exportRef} data={data} isExporting={true} />
-        </div>
-      </div>
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-12 relative z-10">
         
         {/* ── HEADER SECTION ── */}
-        <header className="mb-16 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-6">
-            <div className="flex flex-col items-center lg:items-start">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-200 text-green-700 text-xs font-bold rounded-full mb-6 shadow-sm">
-                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                     PRO ENDORSEMENT STUDIO
+        <header className="mb-8 lg:mb-16 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 border-b border-slate-200 pb-8">
+            <div className="flex flex-col items-center lg:items-start animate-revealUp">
+                <div className="inline-flex items-center gap-3 px-5 py-2 bg-white text-brand-600 border border-brand-100 text-[10px] uppercase font-black tracking-[0.3em] rounded-full mb-6 shadow-sm">
+                     <span className="w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(74,222,128,0.8)] animate-pulse"></span>
+                     Pro Endorsement Studio
                 </div>
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-4 tracking-tighter leading-tight drop-shadow-sm">
                     Design Your <br className="hidden lg:block"/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-800">Sticker</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-500">Sticker</span>
                 </h1>
-                <p className="text-slate-500 text-lg md:text-xl max-w-xl leading-relaxed font-medium">
-                    Generate an ultra-premium, personalized endorsement card in seconds. Choose a layout, enter your details, and download the high-res graphic.
+                <p className="text-slate-600 text-base md:text-xl max-w-xl leading-relaxed font-medium">
+                    Generate an ultra-premium, personalized endorsement card. Choose a layout, enter your details, and download the high-res graphic.
                 </p>
             </div>
             
             {/* Global Stats / Trust Badge */}
-            <div className="hidden lg:flex flex-col items-end gap-2 bg-white/60 backdrop-blur-xl border border-slate-200 shadow-sm p-6 rounded-2xl">
-                <span className="text-3xl font-black text-slate-800">2027</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-green-700">Hon. Hassan Shehu Hussain</span>
-                <div className="flex items-center gap-2 mt-2 opacity-30">
-                   <span className="w-1 h-1 bg-slate-900 rounded-full" />
-                   <span className="w-1 h-1 bg-slate-900 rounded-full" />
-                   <span className="w-1 h-1 bg-slate-900 rounded-full" />
+            <div className="hidden lg:flex flex-col items-end gap-1 bg-white border border-slate-100 shadow-xl p-6 rounded-2xl animate-revealUp" style={{animationDelay: '0.2s'}}>
+                <span className="text-4xl font-black text-slate-900 drop-shadow-sm">2027</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gold-600">Hon. Hassan Shehu Hussain</span>
+                <div className="flex items-center gap-2 mt-3 opacity-50">
+                   <span className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
+                   <span className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
+                   <span className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
                 </div>
             </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
-            {/* ── LEFT: CONTROLS PANEL ── */}
-            <div className="lg:col-span-5 order-2 lg:order-1 space-y-8 pb-32 lg:pb-0">
-                
-                {/* Step 1: Layout */}
-                <section className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white relative overflow-hidden group">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    <div className="flex items-center justify-between mb-8">
-                       <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-3">
-                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 text-xs font-black shadow-sm">1</div> 
-                           Architecture
-                       </h2>
-                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Select Base</span>
-                    </div>
-                    
-                    <div className="relative z-10">
-                       <LayoutSwitcher currentTemplate={data.templateId} onSelect={(id) => updateField('templateId', id)} />
-                    </div>
-                </section>
-
-                {/* Step 2: Customization */}
-                <section className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white relative overflow-hidden group">
-                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                     <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-3">
-                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 text-xs font-black shadow-sm">2</div>
-                           Personalization
-                        </h2>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Inject Data</span>
-                    </div>
-                    
-                    <div className="relative z-10 space-y-8">
-                        <TextControls data={data} onUpdate={updateField} />
-                        
-                        <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent my-8"></div>
-                        
-                        <div>
-                           <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Color Profile</h3>
-                           <ThemeControls data={data} onUpdate={updateField} />
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            {/* ── RIGHT: PREVIEW STUDIO ── */}
-            <div className="lg:col-span-7 order-1 lg:order-2">
-                 <div className="lg:sticky lg:top-8">
+            {/* ── RIGHT (TOP ON MOBILE): PREVIEW STUDIO ── */}
+            <div className="lg:col-span-7 order-1 lg:order-2 animate-revealUp" style={{animationDelay: '0.3s'}}>
+                 <div className="lg:sticky lg:top-24">
                     
                     {/* The Studio Environment (Light Mode) */}
-                    <div className="bg-white p-6 md:p-12 rounded-[2.5rem] lg:rounded-[3rem] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col items-center justify-center min-h-[400px] lg:min-h-[700px] relative overflow-hidden group">
+                    <div className="bg-white p-4 sm:p-6 md:p-12 rounded-[2rem] lg:rounded-[3rem] shadow-2xl border border-slate-100 flex flex-col items-center justify-center min-h-[350px] lg:min-h-[750px] relative overflow-hidden group">
                         
                         {/* Floor Reflection / Studio Lights */}
-                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[200px] bg-green-100 blur-[80px] rounded-[100%] pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity duration-1000"></div>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.01)_0%,transparent_100%)] pointer-events-none"></div>
+                        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-brand-400/30 to-transparent" />
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[300px] bg-brand-400/10 blur-[100px] rounded-full pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity duration-1000 mix-blend-multiply"></div>
 
-                        {/* The Floating Canvas */}
-                        <div className="relative w-full max-w-[550px] transition-all duration-700 hover:scale-[1.03] z-10 perspective-1000">
+                        {/* The Floating Canvas with dynamic mobile scaling and 3D Tilt */}
+                        <div 
+                          className="relative w-full max-w-[550px] transition-all duration-200 ease-out z-10"
+                          style={{ perspective: '1200px' }}
+                          onMouseMove={(e) => {
+                             const rect = e.currentTarget.getBoundingClientRect()
+                             const x = e.clientX - rect.left
+                             const y = e.clientY - rect.top
+                             const centerX = rect.width / 2
+                             const centerY = rect.height / 2
+                             const rotateX = ((y - centerY) / centerY) * -8
+                             const rotateY = ((x - centerX) / centerX) * 8
+                             e.currentTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`
+                          }}
+                          onMouseLeave={(e) => {
+                             e.currentTarget.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)'
+                             e.currentTarget.style.transition = 'transform 0.5s ease-out'
+                          }}
+                          onMouseEnter={(e) => {
+                             e.currentTarget.style.transition = 'transform 0.1s ease-out'
+                          }}
+                        >
                              {/* Canvas Glow Shadow */}
-                             <div className="absolute -inset-1 bg-gradient-to-b from-slate-200 to-transparent rounded-[2rem] blur-xl opacity-50 transition-opacity duration-500"></div>
+                             <div className="absolute -inset-2 bg-gradient-to-b from-slate-300/30 to-transparent rounded-[2rem] blur-xl opacity-50 transition-opacity duration-500"></div>
                              
-                             <div className="relative shadow-[0_30px_60px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.05)] rounded-sm overflow-hidden bg-white mx-auto">
-                                 <StickerPreview ref={previewRef} data={data} />
-                                 {/* Glass Reflection on top of canvas */}
-                                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent pointer-events-none" />
+                             <div className="relative shadow-[0_40px_80px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] rounded-xl overflow-hidden bg-white mx-auto w-full group-hover:shadow-[0_50px_100px_rgba(0,0,0,0.25),0_0_0_1px_rgba(0,0,0,0.05)] transition-shadow duration-500">
+                                 <StickerPreview ref={exportRef} data={data} />
                              </div>
                         </div>
 
-                        {/* Status Bar */}
-                        <div className="absolute top-6 left-8 right-8 flex justify-between items-center pointer-events-none">
-                            <div className="flex items-center gap-2">
-                               <div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse" />
-                               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Live Render</span>
-                            </div>
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{data.aspectRatio.toUpperCase()} • 2160PX</span>
-                        </div>
-
-                        {/* Mobile Actions Bar - Fixed to bottom of screen on small devices */}
-                        <div className="fixed bottom-0 left-0 right-0 p-4 pb-8 bg-white/90 backdrop-blur-2xl border-t border-slate-200 lg:relative lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:p-0 mt-0 lg:mt-16 flex flex-row items-center justify-center gap-4 w-full max-w-full lg:max-w-md z-50 lg:z-10 transition-all">
-                            
+                        {/* Desktop Actions Bar */}
+                        <div className="hidden lg:flex absolute bottom-8 left-0 right-0 px-8 flex-row items-center justify-center gap-4 w-full z-50 transition-all">
                             <button
                                 onClick={handleDownload}
                                 disabled={isDownloading || isSharing || !data.supporterName}
                                 className={`
-                                    flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 text-sm lg:text-base border shadow-sm
+                                    flex-1 relative overflow-hidden group px-6 py-4 rounded-2xl font-black uppercase tracking-wider transition-all duration-300 active:scale-95 text-sm shadow-xl
                                     ${!data.supporterName 
-                                        ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
-                                        : 'bg-green-600 border-green-700 text-white hover:bg-green-700 hover:shadow-[0_10px_25px_rgba(21,128,61,0.3)]'
+                                        ? 'bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
+                                        : 'bg-brand-600 border border-brand-500 text-white hover:bg-brand-500 hover:shadow-[0_15px_30px_rgba(34,197,94,0.3)] hover:-translate-y-1'
                                     }
                                 `}
                             >
+                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
                                 <span className="relative z-10 flex items-center justify-center gap-3">
                                     {isDownloading ? (
                                         <>
-                                            <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                                            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
                                             Rendering...
                                         </>
                                     ) : (
                                         <>
-                                            <span className="material-symbols-outlined text-xl">file_download</span>
-                                            High-Res PNG
+                                            <span className="material-symbols-outlined text-lg group-hover:-translate-y-1 transition-transform">file_download</span>
+                                            Download
                                         </>
                                     )}
                                 </span>
@@ -334,41 +307,174 @@ export default function StickerGeneratorPage() {
                                 onClick={handleShare}
                                 disabled={isDownloading || isSharing || !data.supporterName}
                                 className={`
-                                    flex-1 relative overflow-hidden group px-4 lg:px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 text-sm lg:text-base border shadow-sm
+                                    flex-1 relative overflow-hidden group px-6 py-4 rounded-2xl font-black uppercase tracking-wider transition-all duration-300 active:scale-95 text-sm shadow-xl
                                     ${!data.supporterName 
-                                        ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
-                                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-[0_10px_25px_rgba(0,0,0,0.05)]'
+                                        ? 'bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
+                                        : 'bg-brand-600 border border-brand-500 text-white hover:bg-brand-500 hover:shadow-[0_15px_30px_rgba(34,197,94,0.3)] hover:-translate-y-1'
                                     }
                                 `}
                             >
+                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
                                 <span className="relative z-10 flex items-center justify-center gap-3">
                                     {isSharing ? (
                                         <>
-                                            <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
-                                            Preparing...
+                                            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                                            Share Link
                                         </>
                                     ) : (
                                         <>
-                                            <span className="material-symbols-outlined text-xl">ios_share</span>
+                                            <span className="material-symbols-outlined text-lg">ios_share</span>
                                             Share Link
                                         </>
                                     )}
                                 </span>
                             </button>
-
                         </div>
                         
                         {!data.supporterName && (
-                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2 text-rose-600 bg-rose-50 px-4 py-2 rounded-full text-[10px] font-bold border border-rose-100 shadow-sm animate-pulse">
+                            <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-amber-700 bg-amber-50 px-5 py-2.5 rounded-full text-[10px] uppercase font-black border border-amber-200 shadow-md animate-pulse z-20">
                                 <span className="material-symbols-outlined text-sm">lock</span>
-                                Data Input Required for Export
+                                Data Required
                             </div>
                         )}
                     </div>
                  </div>
             </div>
+
+            {/* ── LEFT (BOTTOM ON MOBILE): CONTROLS PANEL ── */}
+            <div className="lg:col-span-5 order-2 lg:order-1 space-y-6 lg:space-y-8 animate-revealUp" style={{animationDelay: '0.4s'}}>
+                
+                {/* Step 1: Layout */}
+                <section className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-xl border border-slate-100 relative overflow-hidden group">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-gradient-to-r from-transparent via-brand-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                       <h2 className="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3 sm:gap-4">
+                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-50 text-brand-600 text-xs shadow-sm border border-brand-200">1</div> 
+                           Architecture
+                       </h2>
+                    </div>
+                    
+                    <div className="relative z-10">
+                       <LayoutSwitcher currentTemplate={data.templateId} onSelect={(id) => updateField('templateId', id)} />
+                    </div>
+                </section>
+
+                {/* Step 2: Customization */}
+                <section className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-xl border border-slate-100 relative overflow-hidden group">
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-gradient-to-r from-transparent via-brand-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                     <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                        <h2 className="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3 sm:gap-4">
+                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-50 text-brand-600 text-xs shadow-sm border border-brand-200">2</div>
+                           Personalization
+                        </h2>
+                    </div>
+                    
+                    <div className="relative z-10 space-y-8">
+                        <TextControls data={data} onUpdate={updateField} />
+                        
+                        <div className="h-px w-full bg-slate-100 my-8"></div>
+                        
+                        <div>
+                           <h3 className="text-[10px] sm:text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Color Profile</h3>
+                           <ThemeControls data={data} onUpdate={updateField} />
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
         </div>
       </div>
+
+      {/* Mobile Sticky Action Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-2xl border-t border-slate-200 flex flex-row items-center justify-center gap-3 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+          <button
+              onClick={handleDownload}
+              disabled={isDownloading || isSharing || !data.supporterName}
+              className={`
+                  flex-1 relative overflow-hidden group px-4 py-4 rounded-xl font-black uppercase tracking-wider transition-all active:scale-95 text-xs shadow-md flex items-center justify-center gap-2 min-h-[50px]
+                  ${!data.supporterName 
+                      ? 'bg-gray-200 border border-gray-300 text-gray-500 cursor-not-allowed shadow-none' 
+                      : 'bg-brand-600 border border-brand-500 text-white hover:bg-brand-500'
+                  }
+              `}
+          >
+              {isDownloading ? (
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                  <span className="material-symbols-outlined text-[18px]">file_download</span>
+              )}
+              <span>Download</span>
+          </button>
+
+          <button
+              onClick={handleShare}
+              disabled={isDownloading || isSharing || !data.supporterName}
+              className={`
+                  flex-1 relative overflow-hidden group px-4 py-4 rounded-xl font-black uppercase tracking-wider transition-all active:scale-95 text-xs shadow-md flex items-center justify-center gap-2 min-h-[50px]
+                  ${!data.supporterName 
+                      ? 'bg-gray-200 border border-gray-300 text-gray-500 cursor-not-allowed shadow-none' 
+                      : 'bg-brand-600 border border-brand-500 text-white hover:bg-brand-500'
+                  }
+              `}
+          >
+              {isSharing ? (
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                  <span className="material-symbols-outlined text-[18px]">ios_share</span>
+              )}
+              <span>Share</span>
+          </button>
+      </div>
+
+      {/* ── SHARE MODAL ── */}
+      {showShareModal && generatedFile && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+           <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl relative overflow-hidden flex flex-col items-center animate-revealUp text-center">
+              <button 
+                onClick={() => setShowShareModal(false)}
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-slate-100 text-slate-500 rounded-full hover:bg-slate-200 transition-colors"
+              >
+                 <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+
+              <div className="w-16 h-16 rounded-full bg-brand-50 flex items-center justify-center text-brand-600 mb-4 shadow-inner">
+                 <span className="material-symbols-outlined text-[32px]">check_circle</span>
+              </div>
+              
+              <h3 className="text-xl font-black text-slate-900 mb-2 tracking-tight">Sticker Ready!</h3>
+              <p className="text-slate-500 text-sm mb-8 leading-relaxed">
+                 Your personalized campaign sticker has been successfully generated. How would you like to share it?
+              </p>
+
+              <div className="w-full flex flex-col gap-3">
+                 <button
+                   onClick={executeNativeShare}
+                   className="w-full flex items-center justify-center gap-3 py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold uppercase tracking-widest text-xs rounded-xl shadow-[0_10px_20px_rgba(34,197,94,0.3)] hover:-translate-y-0.5 transition-all"
+                 >
+                   <span className="material-symbols-outlined text-[18px]">share</span>
+                   Share Sticker
+                 </button>
+                 
+                 <button
+                   onClick={() => {
+                     const link = document.createElement('a')
+                     link.download = generatedFile.name
+                     link.href = URL.createObjectURL(generatedFile)
+                     link.click()
+                     setShowShareModal(false)
+                   }}
+                   className="w-full flex items-center justify-center gap-3 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-widest text-xs rounded-xl shadow-lg hover:-translate-y-0.5 transition-all"
+                 >
+                   <span className="material-symbols-outlined text-[18px]">download</span>
+                   Save to Device
+                 </button>
+              </div>
+           </div>
+        </div>
+      )}
+
     </div>
   )
 }

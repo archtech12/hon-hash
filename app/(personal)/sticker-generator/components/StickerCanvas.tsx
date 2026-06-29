@@ -8,7 +8,6 @@ interface StickerCanvasProps {
   children: React.ReactNode
   aspectRatio: AspectRatio
   className?: string
-  isExporting?: boolean
 }
 
 const RATIOS: Record<AspectRatio, number> = {
@@ -19,7 +18,7 @@ const RATIOS: Record<AspectRatio, number> = {
 }
 
 export const StickerCanvas = forwardRef<HTMLDivElement, StickerCanvasProps>(
-  ({ children, aspectRatio, className = '', isExporting = false }, ref) => {
+  ({ children, aspectRatio, className = '' }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [scale, setScale] = useState(1)
     const ratio = RATIOS[aspectRatio]
@@ -27,7 +26,6 @@ export const StickerCanvas = forwardRef<HTMLDivElement, StickerCanvasProps>(
     const targetHeight = Math.round(targetWidth / ratio)
 
     useEffect(() => {
-      if (isExporting) return
 
       const updateScale = () => {
         if (containerRef.current) {
@@ -58,24 +56,7 @@ export const StickerCanvas = forwardRef<HTMLDivElement, StickerCanvasProps>(
           observer.disconnect()
         }
       }
-    }, [aspectRatio, targetWidth, isExporting])
-
-    if (isExporting) {
-      return (
-        <div
-          ref={ref}
-          className={`relative overflow-hidden bg-neutral-900 ${className}`}
-          style={{ 
-            width: `${targetWidth}px`,
-            height: `${targetHeight}px`,
-            position: 'relative'
-          }}
-        >
-          {children}
-          <Watermark />
-        </div>
-      )
-    }
+    }, [aspectRatio, targetWidth])
 
     return (
       <div

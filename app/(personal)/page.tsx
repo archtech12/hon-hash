@@ -197,10 +197,12 @@ export default function IndexRoute() {
                   <div className="bg-white rounded-2xl shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all duration-500 overflow-hidden transform hover:-translate-y-2 h-full flex flex-col border border-gray-100">
                     <div className="h-56 bg-gradient-to-br from-green-500 to-green-600 relative overflow-hidden">
                       {item.imageUrl ? (
-                        <img
+                        <Image
                           src={item.imageUrl}
                           alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center">

@@ -221,6 +221,7 @@ export default function ProjectsPage() {
                             src={project.images[0]}
                             alt={`${project.title} - Front View`}
                             fill
+                            priority={index < 6}
                             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                             sizes="(max-width: 768px) 100vw, 50vw"
                           />
@@ -293,6 +294,7 @@ export default function ProjectsPage() {
                         rel="noopener noreferrer"
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50 text-green-600 hover:bg-green-500 hover:text-white transition-all duration-300 mx-1"
                         title="Share on WhatsApp"
+                        aria-label="Share on WhatsApp"
                       >
                         <i className="fab fa-whatsapp"></i>
                       </a>
@@ -303,6 +305,7 @@ export default function ProjectsPage() {
                         rel="noopener noreferrer"
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-400 hover:bg-blue-400 hover:text-white transition-all duration-300 mx-1"
                         title="Share on X"
+                        aria-label="Share on X (Twitter)"
                       >
                         <i className="fab fa-twitter"></i>
                       </a>
@@ -313,6 +316,7 @@ export default function ProjectsPage() {
                         rel="noopener noreferrer"
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 mx-1"
                         title="Share on Facebook"
+                        aria-label="Share on Facebook"
                       >
                         <i className="fab fa-facebook-f text-sm"></i>
                       </a>
@@ -321,6 +325,7 @@ export default function ProjectsPage() {
                         onClick={(e) => { e.stopPropagation(); copyToClipboard(`${lang === 'en' ? project.title : project.titleHA}\n${project.description}\n${window.location.origin}/projects/${project._id}`) }}
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-700 hover:text-white transition-all duration-300 mx-1"
                         title="Copy Link"
+                        aria-label="Copy Project Link"
                       >
                         <span className="material-symbols-outlined text-[18px]">content_copy</span>
                       </button>

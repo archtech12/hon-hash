@@ -21,10 +21,9 @@ import { BadgePremiumTemplate } from './templates/BadgePremiumTemplate'
 
 interface StickerPreviewProps {
   data: StickerData
-  isExporting?: boolean
 }
 
-export const StickerPreview = forwardRef<HTMLDivElement, StickerPreviewProps>(({ data, isExporting = false }, ref) => {
+export const StickerPreview = forwardRef<HTMLDivElement, StickerPreviewProps>(({ data }, ref) => {
   const TemplateMap = {
     classic: ClassicTemplate,
     modern: ModernTemplate,
@@ -46,8 +45,8 @@ export const StickerPreview = forwardRef<HTMLDivElement, StickerPreviewProps>(({
   const SelectedTemplate = TemplateMap[data.templateId]
 
   return (
-    <StickerCanvas ref={ref} aspectRatio={data.aspectRatio} isExporting={isExporting}>
-      <SelectedTemplate data={data} isExporting={isExporting} />
+    <StickerCanvas ref={ref} aspectRatio={data.aspectRatio}>
+      <SelectedTemplate data={data} />
     </StickerCanvas>
   )
 })

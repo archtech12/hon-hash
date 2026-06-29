@@ -1,80 +1,91 @@
 import { TemplateProps } from '../../types'
 import { CandidatePortrait } from '../shared/CandidatePortrait'
+import { tokens } from './design-system/tokens'
 
 export const MinimalTemplate = ({ data }: TemplateProps) => {
   const { supporterName, supporterPhoto, customMessage, aspectRatio } = data
   const isLandscape = ['landscape', 'square', 'print'].includes(aspectRatio)
 
   return (
-    <div className="w-full h-full bg-white font-sans flex flex-col p-8 lg:p-12 relative select-none">
+    <div className={`${tokens.layout.container} bg-white text-gray-900 font-sans p-[3cqw]`} style={{ containerType: 'inline-size', fontFamily: "'Inter', 'SF Pro Display', sans-serif" }}>
       
-      {/* ── TRUE MINIMALISM (SWISS GALLERY AESTHETIC) ── */}
-      {/* Pure white, black text, geometric precision, zero gradients/shadows. */}
-
-      <div className="absolute top-8 right-8 border border-black px-3 py-1">
-         <span className="text-black font-bold uppercase tracking-widest text-[8px]">01 / 2027</span>
-      </div>
-
-      {/* Main Content Area */}
-      <div className={`flex-1 flex ${isLandscape ? 'flex-row' : 'flex-col'} w-full relative z-10 pt-10`}>
+      {/* Bento Box Container */}
+      <div className={`w-full h-full p-[2.5cqw] relative z-10 flex ${isLandscape ? 'flex-row' : 'flex-col'} gap-[2.5cqw] bg-white rounded-[3cqw] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-gray-100`}>
         
-        {/* Left/Top: Pure Typography */}
-        <div className={`flex flex-col justify-between ${isLandscape ? 'w-1/2 pr-12 border-r border-black' : 'h-1/2 pb-8 border-b border-black'}`}>
+        {/* Top: Photography Bento Cards */}
+        <div className={`flex flex-row gap-[2.5cqw] ${isLandscape ? 'w-[55%] h-full flex-col' : 'h-[55%] w-full'}`}>
            
-           <div>
-             <div className="w-8 h-1 bg-black mb-6"></div>
-             <h2 className="text-black font-black text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.9] uppercase tracking-tighter">
-                HASSAN<br/>
-                SHEHU
-             </h2>
-             <p className="text-black font-medium mt-4 tracking-[0.2em] uppercase text-xs">
-                Official Endorsement
-             </p>
+           {/* Candidate Bento Card */}
+           <div className={`flex-1 relative bg-gray-50 rounded-[2cqw] overflow-hidden shadow-sm group/card cursor-pointer`}>
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+              <CandidatePortrait className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/card:scale-105" />
+              <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-[1.5cqw] py-[0.5cqw] rounded-full shadow-sm z-20">
+                 <span className="font-bold text-gray-800 tracking-wider uppercase" style={{ fontSize: isLandscape ? '1cqw' : '1.2cqw' }}>Hassan Shehu</span>
+              </div>
            </div>
 
-           <div className="mt-8">
-              <p className="text-black font-serif italic text-[clamp(1rem,3vw,1.5rem)] leading-snug max-w-sm">
-                "{customMessage || 'SERVICE ABOVE POLITICS'}"
-              </p>
-           </div>
-
-        </div>
-
-        {/* Right/Bottom: Raw Geometric Photos */}
-        <div className={`flex ${isLandscape ? 'w-1/2 pl-12 flex-col justify-center' : 'h-1/2 pt-8 flex-row items-end'} gap-6`}>
-           
-           {/* Supporter Photo */}
-           <div className={`relative ${isLandscape ? 'w-[70%]' : 'w-1/2'} aspect-square bg-slate-100 overflow-hidden`}>
+           {/* Supporter Bento Card */}
+           <div className={`flex-1 relative bg-green-50 rounded-[2cqw] overflow-hidden shadow-sm group/card cursor-pointer`}>
+              <div className="absolute inset-0 bg-gradient-to-t from-green-900/40 via-transparent to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
               {supporterPhoto ? (
-                <img src={supporterPhoto} crossOrigin="anonymous" className="w-full h-full object-cover grayscale" />
-              ) : (
-                 <div className="w-full h-full flex items-center justify-center text-slate-300">
-                     <span className="material-symbols-outlined text-[60px]">person</span>
-                 </div>
+                  <img src={supporterPhoto} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/card:scale-105" />
+                ) : (
+                   <div className="w-full h-full flex items-center justify-center text-green-300 transition-transform duration-700 group-hover/card:scale-105">
+                       <span className="material-symbols-outlined font-light" style={{ fontSize: '8cqw' }}>person</span>
+                   </div>
               )}
-              <div className="absolute bottom-4 left-4 bg-white px-2 py-1">
-                 <span className="text-black font-bold uppercase tracking-widest text-[8px]">
-                    {supporterName || 'SUPPORTER'}
-                 </span>
+              <div className="absolute bottom-3 right-3 bg-green-700/95 backdrop-blur-md px-[1.5cqw] py-[0.5cqw] rounded-full shadow-sm z-20">
+                 <span className="font-bold text-white tracking-wider uppercase" style={{ fontSize: isLandscape ? '1cqw' : '1.2cqw' }}>Supporter</span>
               </div>
            </div>
-
-           {/* Candidate Photo */}
-           <div className={`relative ${isLandscape ? 'w-[40%] self-end -mt-12 border-4 border-white' : 'w-[40%] mb-4'} aspect-square bg-slate-100 overflow-hidden`}>
-              <CandidatePortrait className="w-full h-full object-cover grayscale" />
-              <div className="absolute bottom-2 left-2 bg-black px-2 py-1">
-                 <span className="text-white font-bold uppercase tracking-widest text-[8px]">CANDIDATE</span>
-              </div>
-           </div>
-
         </div>
-      </div>
 
-       {/* Bottom Footer Line */}
-       <div className="w-full flex justify-between items-center pt-6 mt-6 border-t border-black">
-            <span className="text-black font-black uppercase tracking-[0.4em] text-[10px]">Nasarawa Federal</span>
-            <div className="w-3 h-3 bg-black rounded-full"></div>
-       </div>
+        {/* Bottom: Typography Bento Card */}
+        <div className={`flex flex-col bg-gradient-to-br from-green-900 to-green-950 text-white rounded-[2cqw] overflow-hidden shadow-md relative ${isLandscape ? 'w-[45%] h-full' : 'w-full h-[45%]'}`}>
+           
+           {/* Ambient Glow */}
+           <div className="absolute top-0 right-0 w-[30cqw] h-[30cqw] bg-green-400/10 blur-[40px] rounded-full pointer-events-none"></div>
+
+           {/* Content Wrapper */}
+           <div className="flex-1 flex flex-col p-[3cqw] relative z-10 h-full">
+              
+              {/* Header inside card */}
+              <div className="flex justify-between items-start mb-[1cqw]">
+                 <div className="flex items-center gap-[1cqw]">
+                     <div className="w-[1.5cqw] h-[1.5cqw] bg-green-400 rounded-full shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                     <span className="font-bold text-green-400 tracking-widest uppercase" style={{ fontSize: isLandscape ? '1.2cqw' : '1.5cqw' }}>Official 2027</span>
+                 </div>
+                 <span className="material-symbols-outlined text-green-400/50" style={{ fontSize: isLandscape ? '3cqw' : '4cqw' }}>verified</span>
+              </div>
+
+              {/* Huge Title (Dynamic Slogan) */}
+              <div className="flex-1 flex flex-col justify-center py-[1cqw]">
+                 <h1 className="font-black uppercase tracking-tighter text-white leading-[0.9]" style={{ fontSize: isLandscape ? '5.5cqw' : '8cqw', wordBreak: 'break-word' }}>
+                    {customMessage || (
+                        <>A New Era<br/>For Nasarawa.</>
+                    )}
+                 </h1>
+              </div>
+
+              {/* Endorsement Details */}
+              <div className="mt-auto pt-[2cqw] border-t border-green-700/50 flex items-end justify-between">
+                 <div className="max-w-[70%]">
+                    <p className="font-medium text-green-100/70 mb-[0.5cqw] tracking-wide" style={{ fontSize: isLandscape ? '1.2cqw' : '1.5cqw' }}>Proudly endorsed by</p>
+                    <h3 className="font-bold text-white leading-tight truncate" style={{ fontSize: isLandscape ? '2cqw' : '2.5cqw' }}>
+                       {supporterName || 'John Doe'}
+                    </h3>
+                 </div>
+                 
+                 <div className="text-right">
+                    <p className="font-black text-green-400 tracking-[0.2em] leading-none" style={{ fontSize: isLandscape ? '1.5cqw' : '2cqw' }}>REF<br/>2027</p>
+                 </div>
+              </div>
+
+           </div>
+        </div>
+
+      </div>
     </div>
   )
 }
+

@@ -1,16 +1,16 @@
-import { StickerData } from '../../types'
+import { CANDIDATE_BASE64 } from './candidateImage'
 
 export const CandidatePortrait = ({ className = '', src }: { className?: string, src?: string }) => {
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <img
-        src={src || "/assets/images/gallery/0-Portraits-Official/potraitn.jpg"}
+        src={src || CANDIDATE_BASE64}
+        crossOrigin="anonymous"
         onError={(e) => {
           e.currentTarget.onerror = null;
           e.currentTarget.src = "/assets/images/default-candidate-avatar.png";
         }}
         alt="Hon. Hassan Shehu Hussain"
-        crossOrigin="anonymous"
         className="w-full h-full object-cover object-top"
       />
       {/* Subtle inner shadow for depth */}
