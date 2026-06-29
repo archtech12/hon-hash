@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { news } from '@/lib/news' // Using local data
+import { news as staticNews } from '@/lib/news' // Using local data fallback
 
 interface NewsItem {
   _id: string
@@ -16,12 +16,31 @@ interface NewsItem {
 
 // ... (imports same)
 export default function NewsPage() {
-  // Using imported local data instead of state fetch
-  const loading = false;
+  const [news, setNews] = useState<NewsItem[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   fetchNews logic removed
-  // }, [])
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch('/api/news', { cache: 'no-store' })
+        const data = await response.json()
+        const fetchedNews = data.data || data || []
+        
+        if (fetchedNews.length > 0) {
+          setNews(fetchedNews)
+        } else {
+          setNews(staticNews as any)
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error)
+        setNews(staticNews as any)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchNews()
+  }, [])
 
   const getCategoryColor = (category: string) => {
     const colors: {[key: string]: string} = {

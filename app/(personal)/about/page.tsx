@@ -3,18 +3,38 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+import { useState, useEffect } from 'react'
+
 interface AboutData {
   title: string
   content: string
 }
 
 export default function AboutPage() {
-  const aboutData = {
+  const [aboutData, setAboutData] = useState<AboutData>({
     title: 'About Hon. Hassan Shehu Hussain',
     content: `<p>Hon. Hassan Shehu Hussain (popularly known as Hon. HASH) is the Member representing Nasarawa Federal Constituency in the House of Representatives under the platform of the All Progressives Congress (APC).</p>
             <p>A committed leader and grassroots politician, Hon. HASH has dedicated his tenure to transforming lives through impactful projects in Infrastructure, Education, Health, and Empowerment. His vision is built on the principles of service to humanity and participatory governance.</p>
             <p>Since his inauguration, he has spearheaded numerous development initiatives across the 11 wards of Nasarawa Federal Constituency, including Gama, Kaura Goje, Hotoron Kudu, Hotoron Arewa, Tudun Murtala, Kawaji, Gawuna, Tudun Wada, Gwagwarwa, and Dakata.</p>`,
-  }
+  })
+
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const response = await fetch('/api/about', { cache: 'no-store' })
+        const data = await response.json()
+        if (data && data.content) {
+           setAboutData({
+             title: data.title || 'About Hon. Hassan Shehu Hussain',
+             content: data.content
+           })
+        }
+      } catch (error) {
+        console.error('Error fetching about data:', error)
+      }
+    }
+    fetchAbout()
+  }, [])
 
   return (
     <div className="w-full">
@@ -36,17 +56,10 @@ export default function AboutPage() {
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
                 My Journey
               </h2>
-              <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 mb-12">
-                <p>
-                  <strong>Hon. Hassan Shehu Hussain (Hon. HASH)</strong> serves as the distinguished Member representing Nasarawa Federal Constituency in the House of Representatives. Elected under the banner of the All Progressives Congress (APC), he has emerged as a transformative figure in Nigerian legislative politics.
-                </p>
-                <p>
-                  With a tenure defined by tangible results, Hon. HASH has prioritized a <span className="italic">"Development First"</span> agenda. His strategic focus encompasses modernizing infrastructure, revitalizing local healthcare systems, and expanding educational access. He believes that true representation goes beyond lawmaking—it requires active, on-the-ground partnership with the people.
-                </p>
-                <p>
-                  Since assuming office, he has successfully deployed critical interventions across all 11 wards of the constituency—from Gama to Dakata. His administration is marked by a data-driven approach to solving community challenges, ensuring that every project, whether a new road or a scholarship scheme, delivers maximum social impact.
-                </p>
-              </div>
+              <div 
+                className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 mb-12"
+                dangerouslySetInnerHTML={{ __html: aboutData.content }}
+              />
 
               <div className="border-l-4 border-green-600 pl-6 space-y-10">
                 <div className="relative">

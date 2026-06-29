@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import Image from 'next/image'
-import { projects } from '@/lib/projects' // Using local data
+import { projects as staticProjects } from '@/lib/projects' // Using local data fallback
 import Link from 'next/link'
 import { ProjectModal } from '@/components/ProjectModal'
 
@@ -54,10 +54,34 @@ export default function ProjectsPage() {
   const [shareUrl, setShareUrl] = useState('')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   
-  const loading = false; // Static data is instant
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setShareUrl(window.location.href)
+    
+    // Fetch projects from API
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/projects', { cache: 'no-store' })
+        const data = await response.json()
+        const fetchedProjects = data.data || data || []
+        
+        // Fallback to static data if DB is empty
+        if (fetchedProjects.length > 0) {
+          setProjects(fetchedProjects)
+        } else {
+          setProjects(staticProjects as any)
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error)
+        setProjects(staticProjects as any) // Fallback on error
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchProjects()
   }, [])
   
   const toggleLang = () => setLang(prev => prev === 'en' ? 'ha' : 'en')

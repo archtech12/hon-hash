@@ -24,8 +24,7 @@ const projectSchema = new mongoose.Schema({
   }],
   category: {
     type: String,
-    required: true,
-    enum: ['Education', 'Infrastructure', 'Social Welfare', 'Economic Empowerment', 'Healthcare', 'Agriculture', 'Water', 'Empowerment', 'Youth Empowerment', 'Other', 'Security', 'Community', 'Political']
+    required: true
   },
   imageUrl: {
     type: String,
@@ -47,7 +46,6 @@ const projectSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ['Planned', 'Ongoing', 'Completed', 'Cancelled'],
     default: 'Planned'
   },
   year: {
