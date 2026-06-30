@@ -4,7 +4,7 @@ import Project from '@/server/models/Project'
 
 export const dynamic = 'force-dynamic'
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const authHeader = req.headers.get('Authorization')
     if (!authHeader?.startsWith('Bearer ')) {
@@ -15,7 +15,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       if (!process.env.MONGODB_URI) throw new Error("No Mongo URI");
       await connectDB()
       
-      const { id } = params
+      const resolvedParams = await params
+      const { id } = resolvedParams
       const body = await req.json()
       
       const updatedProject = await Project.findByIdAndUpdate(
@@ -51,7 +52,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const authHeader = req.headers.get('Authorization')
     if (!authHeader?.startsWith('Bearer ')) {
@@ -62,7 +63,8 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
       if (!process.env.MONGODB_URI) throw new Error("No Mongo URI");
       await connectDB()
       
-      const { id } = params
+      const resolvedParams = await params
+      const { id } = resolvedParams
       const deletedProject = await Project.findByIdAndDelete(id)
 
       if (!deletedProject) {
