@@ -23,6 +23,7 @@ export default function ProjectsManager() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [editingProject, setEditingProject] = useState<Project | null>(null)
 
@@ -111,13 +112,15 @@ export default function ProjectsManager() {
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    setSuccess('')
 
     try {
       // Upload image to Cloudinary if file is selected
       let currentImages = [...images];
       if (imageFile) {
         const uploadedUrl = await uploadImageToCloudinary(imageFile);
-        currentImages.push(uploadedUrl);
+        currentImages.unshift(uploadedUrl); // Make it the main image
       }
       // If legacy imageUrl exists and not in images, add it
       if (imageUrl && !currentImages.includes(imageUrl)) {
@@ -150,6 +153,8 @@ export default function ProjectsManager() {
         setProjects([...projects, newProject])
         resetForm()
         setShowForm(false)
+        setSuccess('Project created successfully!')
+        setTimeout(() => setSuccess(''), 4000)
       } else {
         const data = await response.json()
         setError(data.message || 'Failed to create project')
@@ -163,13 +168,15 @@ export default function ProjectsManager() {
     e.preventDefault()
 
     if (!editingProject) return
+    setError('')
+    setSuccess('')
 
     try {
       // Upload image to Cloudinary if a new file is selected
       let currentImages = [...images];
       if (imageFile) {
         const uploadedUrl = await uploadImageToCloudinary(imageFile);
-        currentImages.push(uploadedUrl);
+        currentImages.unshift(uploadedUrl); // Make it the main image
       }
       
       const token = localStorage.getItem('adminToken')
@@ -199,6 +206,8 @@ export default function ProjectsManager() {
         setEditingProject(null)
         setShowForm(false)
         resetForm()
+        setSuccess('Project updated successfully!')
+        setTimeout(() => setSuccess(''), 4000)
       } else {
         const data = await response.json()
         setError(data.message || 'Failed to update project')
@@ -210,6 +219,8 @@ export default function ProjectsManager() {
 
   const handleDeleteProject = async (projectId: string) => {
     if (!confirm('Are you sure you want to delete this project?')) return
+    setError('')
+    setSuccess('')
 
     try {
       const token = localStorage.getItem('adminToken')
@@ -291,6 +302,7 @@ export default function ProjectsManager() {
       </div>
 
       {error && <div className="bg-red-50 text-red-500 p-3 rounded">{error}</div>}
+      {success && <div className="bg-green-50 text-green-700 p-3 rounded font-medium">{success}</div>}
 
       {showForm && (
         <div className="bg-white p-6 rounded-lg shadow">
