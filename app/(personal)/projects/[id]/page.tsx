@@ -1,8 +1,9 @@
-import { projects } from '@/lib/projects'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
+import connectDB from '@/lib/mongodb'
+import Project from '@/server/models/Project'
 
 interface Props {
   params: Promise<{
@@ -10,21 +11,20 @@ interface Props {
   }>
 }
 
-// 1. Generate Static Params for SSG (Optional but good for performance)
-export async function generateStaticParams() {
-  return projects.map((project) => ({
-    id: project._id,
-  }))
-}
-
-function getProject(id: string) {
-  return projects.find(p => p._id === id) || null
+async function getProject(id: string) {
+  try {
+    await connectDB()
+    const project = await Project.findById(id).lean()
+    return project ? JSON.parse(JSON.stringify(project)) : null
+  } catch (error) {
+    return null
+  }
 }
 
 // 2. Generate Metadata for Social Sharing (Server-Side)
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
-  const project = getProject(id)
+  const project = await getProject(id)
 
   if (!project) {
     return {
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const baseUrl = 'https://honhash.com' // Using the primary domain
   
   // Use the first photo or a default fallback
-  const imagePath = (project.images && project.images[0]) || '/placeholder.jpg'
+  const imagePath = (project.images && project.images[0]) || project.imageUrl || '/placeholder.jpg'
   const imageUrl = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`
 
   return {
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // 3. Render the Project Details Page
 export default async function ProjectDetailsPage({ params }: Props) {
   const { id } = await params
-  const project = getProject(id)
+  const project = await getProject(id)
 
   if (!project) {
     notFound()
