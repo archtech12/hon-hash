@@ -14,7 +14,7 @@ interface MediaItem {
   createdAt?: string
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
+const API_URL = ''
 
 export default function MediaManager() {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([])

@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {useRouter} from 'next/navigation'
 import RichTextEditor from '../../../components/RichTextEditor'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
+const API_URL = ''
 
 export default function LegislativeEditor() {
   const [title, setTitle] = useState('')

@@ -19,7 +19,7 @@ const ApplicationSupport = require('./server/models/ApplicationSupport');
 console.log('Starting migration to MongoDB Atlas...');
 
 // Connect to local database first
-const localUri = 'mongodb://localhost:27017/ghali-dashboard';
+const localUri = 'mongodb://localhost:27017/hon-hash-dashboard';
 console.log('Connecting to local database...');
 mongoose.connect(localUri, {
   useNewUrlParser: true,
@@ -35,14 +35,14 @@ mongoose.connect(localUri, {
       const projects = await Project.find();
       const constituencies = await Constituency.find();
       const legislatives = await Legislative.find();
-      const abouts = await About.find();
-      const media = await Media.find();
-      const contacts = await Contact.find();
-      const applications = await Application.find();
-      const applicationSettings = await ApplicationSetting.find();
-      const applicationSupports = await ApplicationSupport.find();
+      const abouts = await About.find().lean();
+      const media = await Media.find().lean();
+      const contacts = await Contact.find().lean();
+      // const applications = await Application.find().lean();
+      // const applicationSettings = await ApplicationSetting.find().lean();
+      // const applicationSupports = await ApplicationSupport.find().lean();
 
-      console.log('Data fetched from local database:');
+      console.log('Found data to migrate:');
       console.log('- Users:', users.length);
       console.log('- News:', news.length);
       console.log('- Projects:', projects.length);
@@ -51,9 +51,9 @@ mongoose.connect(localUri, {
       console.log('- About:', abouts.length);
       console.log('- Media:', media.length);
       console.log('- Contacts:', contacts.length);
-      console.log('- Applications:', applications.length);
-      console.log('- Application Settings:', applicationSettings.length);
-      console.log('- Application Supports:', applicationSupports.length);
+      // console.log('- Applications:', applications.length);
+      // console.log('- Application Settings:', applicationSettings.length);
+      // console.log('- Application Supports:', applicationSupports.length);
 
       // Close local connection
       await mongoose.connection.close();
@@ -81,25 +81,36 @@ mongoose.connect(localUri, {
       await About.deleteMany();
       await Media.deleteMany();
       await Contact.deleteMany();
-      await Application.deleteMany();
-      await ApplicationSetting.deleteMany();
-      await ApplicationSupport.deleteMany();
+      // await Application.deleteMany();
+      // await ApplicationSetting.deleteMany();
+      // await ApplicationSupport.deleteMany();
 
       console.log('✅ Cleared existing data');
 
       // Insert data to Atlas
       console.log('Inserting data to Atlas...');
       if (users.length > 0) await User.insertMany(users);
-      if (news.length > 0) await News.insertMany(news);
+      
+      if (news.length > 0) {
+        const validNewsCategories = ['Announcement', 'Event', 'Achievement', 'Press Release', 'Legislative', 'Infrastructure', 'Empowerment', 'Education', 'Other'];
+        const sanitizedNews = news.map(n => {
+          if (!validNewsCategories.includes(n.category)) {
+            n.category = 'Other';
+          }
+          return n;
+        });
+        await News.insertMany(sanitizedNews);
+      }
+
       if (projects.length > 0) await Project.insertMany(projects);
       if (constituencies.length > 0) await Constituency.insertMany(constituencies);
       if (legislatives.length > 0) await Legislative.insertMany(legislatives);
       if (abouts.length > 0) await About.insertMany(abouts);
       if (media.length > 0) await Media.insertMany(media);
       if (contacts.length > 0) await Contact.insertMany(contacts);
-      if (applications.length > 0) await Application.insertMany(applications);
-      if (applicationSettings.length > 0) await ApplicationSetting.insertMany(applicationSettings);
-      if (applicationSupports.length > 0) await ApplicationSupport.insertMany(applicationSupports);
+      // if (applications.length > 0) await Application.insertMany(applications);
+      // if (applicationSettings.length > 0) await ApplicationSetting.insertMany(applicationSettings);
+      // if (applicationSupports.length > 0) await ApplicationSupport.insertMany(applicationSupports);
 
       console.log('✅ Data migration completed successfully!');
 
