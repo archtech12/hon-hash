@@ -23,3 +23,42 @@ export async function GET() {
     return NextResponse.json(MOCK_PROJECTS)
   }
 }
+
+export async function POST(req: Request) {
+  try {
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    try {
+      if (!process.env.MONGODB_URI) throw new Error("No Mongo URI");
+      await connectDB()
+      
+      const body = await req.json()
+      
+      const newProject = new Project({
+        title: body.title,
+        titleHA: body.titleHA,
+        description: body.description,
+        category: body.category,
+        imageUrl: body.imageUrl,
+        images: body.images || [],
+        videoEmbedLink: body.videoEmbedLink,
+        status: body.status || 'Planned',
+        year: body.year,
+        priority: body.priority || 0,
+        date: body.year || new Date().getFullYear().toString()
+      })
+
+      const savedProject = await newProject.save()
+      return NextResponse.json(savedProject, { status: 201 })
+    } catch (dbError: any) {
+      console.error("Database connection or save failed:", dbError);
+      return NextResponse.json({ message: 'Failed to save project', error: dbError.message }, { status: 500 })
+    }
+  } catch (error: any) {
+    console.error('Error creating project:', error)
+    return NextResponse.json({ message: 'Server error', details: error.message }, { status: 500 })
+  }
+}
